@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_03_06_211903) do
     t.string "user_agent", null: false
     t.string "url", null: false
     t.string "remote_ip"
+    t.string "referrer"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
