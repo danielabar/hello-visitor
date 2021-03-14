@@ -1,4 +1,5 @@
 class VisitsController < ApplicationController
+  before_action :authenticate_user!, only: %i[index show]
   skip_forgery_protection
 
   def index

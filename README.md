@@ -1,24 +1,36 @@
-# README
+# Hello Visitor
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> Look Ma, No Cookies!
 
-Things you may want to cover:
+Free, privacy focused analytics. Just record visits, no creepy.
+## System Dependencies
 
-* Ruby version: 2.7.1
+Before you start, make sure Docker is installed, as well as:
 
-* System dependencies: `brew install postgresql`
+```
+rbenv install 2.7.2
+brew install postgresql
+```
 
-* Start db: `docker compose up`
+## Start Services
 
-* Database creation: `bundle exec rake db:create`
+`make`
 
-* Database initialization: `bundle exec rake db:migrate`
+## Initialize DB
 
-* Database rollback one migration: `bundle exec rake db:rollback`
+`make init`
 
-* How to run the test suite: `bundle exec rspec`
+## Run Server
 
-* Server: `bundle exec rails s`
+`make serve`
 
-* Deployment instructions: Heroku TBD...
+App is at [http://localhost:3000/], login as example user in [seeds](db/seeds.rb).
+## Run Tests
+
+`make rspec`
+
+## Deploy
+
+Heroku TBD...
+
+[TODO](doc/todo.md)
