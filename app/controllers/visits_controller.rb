@@ -3,7 +3,7 @@ class VisitsController < ApplicationController
   skip_forgery_protection
 
   def index
-    @visits = Visit.all
+    @visits = Visit.limit(100).order(created_at: :desc)
 
     render json: { visits: @visits }
   end
