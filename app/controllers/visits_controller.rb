@@ -3,7 +3,6 @@ class VisitsController < ApplicationController
   skip_forgery_protection
 
   def index
-    # TODO: Paginate
     @visits = Visit.all
 
     render json: { visits: @visits }
@@ -18,15 +17,14 @@ class VisitsController < ApplicationController
   def create
     @visit = Visit.new(visit_params)
     @visit.remote_ip = request.remote_ip
-    # Nice to have: https://stackoverflow.com/questions/1988049/getting-a-user-country-name-from-originating-ip-address-with-ruby-on-rails
     sanitize
 
     if @visit.save
-      render json: { visits: @visit }
       Rails.logger.info("Visit saved: #{@visit.to_json}")
     else
-      render json: { error: @visit.errors }
+      Rails.logger.error("Visit error: #{@visit.errors}")
     end
+    render json: {}
   end
 
   private
