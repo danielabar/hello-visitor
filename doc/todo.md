@@ -2,24 +2,12 @@
 
 ## Devise (WIP)
 
-- Authenticate only for index and show visit, getting started: https://github.com/heartcombo/devise#getting-started
-- Devise `config.secret_key ` should come from env var
 - Logout
-- Create new user at console: https://stackoverflow.com/questions/35909643/devise-user-from-rails-console1.
-- Prevent new user registration
-
-```ruby
-user = User.new({email: 'test@example.com', password: 'password', password_confirmation: 'password'})
-user.save
-```
+- Devise `config.secret_key ` should come from env var
 
 ## CORS
 
-Only for POST /visit
-
-## Heroku
-
-Heroku Rails console to create user: https://stackoverflow.com/questions/463916how-can-i-run-rails-console-in-heroku-rails-5-1-and-postgresql   `heroku run rails c -a APP_NAME`
+Allows host should come from env var
 
 ## Visits Index View
 
@@ -27,7 +15,11 @@ Visits Controller index respond to html with view - just a tabular listing for n
 
 Paginated or only show most recent `n` results
 
-## Future Enhancements
+## Heroku Postgres Cleanup
+
+Free tier max 10K rows, need some auto truncate and archive...
+
+## More Data
 
 How long user has been on page: https://stackoverflow.com/questions/147636/best-way-to-detect-when-a-user-leaves-a-web-page
 

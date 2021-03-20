@@ -31,6 +31,16 @@ App is at [http://localhost:3000/], login as example user in [seeds](db/seeds.rb
 
 ## Deploy
 
-Heroku TBD...
+[Heroku Getting Started with Rails 6](https://devcenter.heroku.com/articles/getting-started-with-rails6)
+
+[Setup env vars](https://devcenter.heroku.com/articles/config-vars)
+
+Create new user at [Heroku Rails Console](https://devcenter.heroku.com/articles/getting-started-with-rails6#run-the-rails-console), replace `email` and `password` with real values:
+
+```ruby
+user = User.new({email: 'test@example.com', password: 'password', password_confirmation: 'password'})
+user.save
+```
+## TODO
 
 [TODO](doc/todo.md)
