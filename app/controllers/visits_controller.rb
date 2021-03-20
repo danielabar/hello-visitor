@@ -32,7 +32,7 @@ class VisitsController < ApplicationController
   private
 
   def visit_params
-    params.require(:visit).permit(:guest_timezone_offset, :user_agent, :url)
+    params.require(:visit).permit(:guest_timezone_offset, :user_agent, :url, :referrer)
   end
 
   # https://stackoverflow.com/questions/3985989/using-sanitize-within-a-rails-controller
