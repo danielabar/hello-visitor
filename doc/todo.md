@@ -5,10 +5,6 @@
 - Logout
 - Devise `config.secret_key ` should come from env var
 
-## CORS
-
-Allows host should come from env var
-
 ## Visits Index View
 
 Visits Controller index respond to html with view - just a tabular listing for now???
