@@ -22,3 +22,5 @@ test:
 production:
   <<: *default
   database: hello_production
+  username: hello
+  password: <%= ENV['HELLO_DATABASE_PASSWORD'] %>
