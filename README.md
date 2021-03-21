@@ -41,6 +41,10 @@ Create new user at [Heroku Rails Console](https://devcenter.heroku.com/articles/
 user = User.new({email: 'test@example.com', password: 'password', password_confirmation: 'password'})
 user.save
 ```
+
+[Using Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#using-the-cli)
+
+[More useful Heroku commands](doc/heroku.md)
 ## TODO
 
 [TODO](doc/todo.md)
