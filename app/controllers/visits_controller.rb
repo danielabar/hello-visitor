@@ -5,7 +5,10 @@ class VisitsController < ApplicationController
   def index
     @visits = Visit.limit(100).order(created_at: :desc)
 
-    render json: { visits: @visits }
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: { visits: @visits } }
+    end
   end
 
   def show

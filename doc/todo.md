@@ -21,10 +21,12 @@ Something like last 30/60/90 days:
 
 Free tier max 10K rows, need some auto truncate and archive...
 
-## More Data
+## Data
 
-Parse user agent - as it comes in?
+Consider `window.location.hostname` and `window.location.pathname` rather than url - to make pathname shorter for display in UI
 
 How long user has been on page: https://stackoverflow.com/questions/147636/best-way-to-detect-when-a-user-leaves-a-web-page
 
-Save country from ip: https://stackoverflow.com/questions/1988049/getting-a-user-country-name-from-originating-ip-address-with-ruby-on-rails
+Parse user agent - as it comes in? - maybe do in worker that updates record later
+
+Save country from ip: https://stackoverflow.com/questions/1988049/getting-a-user-country-name-from-originating-ip-address-with-ruby-on-rails - maybe do in worker that updates record later

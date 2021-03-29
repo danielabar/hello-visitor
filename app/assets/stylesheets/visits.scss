@@ -1,3 +1,40 @@
 // Place all the styles related to the Visits controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+#by-page.bar {
+  --labels-size: 400px;
+  height: 400px;
+  // max-width: 800px;
+  margin: 0 auto;
+}
+
+.visits {
+  .chart-wrapper {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: 50px 1fr;
+    // grid-template-rows: 250px 50px;
+    grid-template-areas:
+      "data-axis    chart"
+      "primary-axis primary-axis";
+
+    .table {
+      grid-area: chart;
+    }
+
+    .bar {
+      --labels-size: 300px;
+    }
+
+    .primary-axis {
+      grid-area: primary-axis;
+    }
+
+    .data-axis {
+      grid-area: data-axis;
+      writing-mode: tb-rl;
+      transform: rotateZ(180deg);
+    }
+  }
+}
