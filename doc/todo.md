@@ -17,10 +17,9 @@
 ## Visits Index View
 
 Visualize data from today to 1 year ago:
-  - total number of visits
-  - top pages (horizontal bar chart)
   - top referrers (horizontal bar chart)
   - number of visits per day (line chart)
+  - average daily visits
 
 ## Visits Index View: Date Controls
 
