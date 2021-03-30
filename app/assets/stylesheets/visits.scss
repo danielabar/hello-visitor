@@ -2,9 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 #by-page.bar {
-  --labels-size: 400px;
+  --labels-size: 550px;
   height: 400px;
-  // max-width: 800px;
   margin: 0 auto;
 }
 
@@ -21,10 +20,6 @@
 
     .table {
       grid-area: chart;
-    }
-
-    .bar {
-      --labels-size: 300px;
     }
 
     .primary-axis {

@@ -7,15 +7,17 @@
 
 ## POST Constraint
 
-[constraint POST /visits](https://stackoverflow.com/questions/27852655/can-i-accept-post-request-only-from-a-domain-name)
+[constraint POST /visits](https://stackoverflow.com/questions/27852655/can-i-accept-post-request-only-from-a-domain-name) by domain.
 
-## WIP: Visits Index View
+## Visits Index View
 
-To start, data within last year:
+Visualize data from today to 1 year ago:
   - total number of visits
   - top pages (horizontal bar chart)
   - top referrers (horizontal bar chart)
   - number of visits per day (line chart)
+
+## Visits Index View: Date Controls
 
 Buttons for last 30 days, last 1 day, last 1 year.
 
