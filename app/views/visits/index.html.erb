@@ -1,2 +1,29 @@
-<h1>Visits#index</h1>
-<p>Find me in app/views/visits/index.html.erb</p>
+<div class="visits">
+  <h1>Visits</h1>
+
+  <div class="summary">
+    <p>Total Visits: <span><%= @total_visits %></span></p>
+  </div>
+
+  <div class="chart-wrapper">
+    <table id="by-page" class="charts-css bar show-heading show-labels show-primary-axis labels-align-start data-spacing-0">
+      <caption> Number of Visits by Page </caption>
+      <thead>
+        <tr>
+          <th scope="col"> URL </th>
+          <th scope="col"> Number of Visits </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @by_page.each do |stats_item| %>
+        <tr>
+          <th scope="row"> <%= stats_item.value %> </th>
+          <td style="--size: <%= stats_item.percentage %>;"> <span class="data"> <%= stats_item.count %> </span> </td>
+        </tr>
+        <%end %>
+      </tbody>
+    </table>
+    <div class="primary-axis"> Number of Visits </div>
+    <div class="data-axis"> URL </div>
+  </div>
+</div>

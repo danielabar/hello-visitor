@@ -26,3 +26,6 @@ test:
 
 reset_db:
 	bundle exec rake db:reset
+
+routes:
+	bundle exec rake routes

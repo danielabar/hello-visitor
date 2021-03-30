@@ -4,8 +4,13 @@ class VisitsController < ApplicationController
 
   def index
     @visits = Visit.limit(100).order(created_at: :desc)
+    @total_visits = Visit.total_visits
+    @by_page = Visit.by_page(@total_visits)
 
-    render json: { visits: @visits }
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: { total_visits: @total_visits, by_page: @by_page, visits: @visits } }
+    end
   end
 
   def show

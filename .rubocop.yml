@@ -1,5 +1,31 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-thread_safety
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "db/schema.rb"
+    - "Gemfile"
+    - "lib/tasks/*.rake"
+    - "bin/*"
+    - "node_modules/**/*"
+    - "config/puma.rb"
+    - "config/spring.rb"
+    - "config/environments/development.rb"
+    - "config/environments/production.rb"
+    - "config/initializers/devise.rb"
+    - "spec/spec_helper.rb"
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/Documentation:
   Enabled: false
+
+Metrics/BlockLength:
+  Max: 25
+  IgnoredMethods: ["describe", "it", "context"]
+  Exclude:
+    - "spec/**/*.rb"
