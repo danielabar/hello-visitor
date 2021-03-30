@@ -1,8 +1,13 @@
 # TODO
 
+## Github Actions
+
+- CI (bundle install, rubocop, rspec)
+- deploy to Heroku?
+
 ## Devise
 
-- Logout
+- Logout (top right of application layout so its in all views)
 - Devise `config.secret_key ` should come from env var
 
 ## POST Constraint

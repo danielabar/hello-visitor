@@ -10,7 +10,7 @@ class Visit < ApplicationRecord
   end
 
   def self.by_page(total)
-    sql = <<~SQL
+    sql = <<~SQL.squish
       SELECT SPLIT_PART(url, ?, 1) as just_url
         , count(SPLIT_PART(url, ?, 1)) as page_count
       FROM visits
