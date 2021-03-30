@@ -3,3 +3,9 @@ Style/FrozenStringLiteralComment:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/BlockLength:
+  Max: 25
+  ExcludedMethods: ["describe", "it", "context"]
+  Exclude:
+    - "spec/**/*.rb"
