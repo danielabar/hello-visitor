@@ -6,10 +6,14 @@ class VisitsController < ApplicationController
     @visits = Visit.limit(100).order(created_at: :desc)
     @total_visits = Visit.total_visits
     @by_page = Visit.by_page(@total_visits)
+    @by_page2 = Visit.by_page2
+    @by_date = Visit.by_date
+
+    raw_data = { total_visits: @total_visits, by_page: @by_page, by_date: @by_date, visits: @visits }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: { total_visits: @total_visits, by_page: @by_page, visits: @visits } }
+      format.json { render json: raw_data }
     end
   end
 

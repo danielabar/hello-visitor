@@ -1,6 +1,12 @@
 // Place all the styles related to the Visits controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+#by-date.line {
+  height: 200px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 #by-page.bar {
   --labels-size: 550px;
   height: 400px;
