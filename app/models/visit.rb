@@ -9,7 +9,7 @@ class Visit < ApplicationRecord
       .count
   end
 
-  def self.by_page(total)
+  def self.by_page
     sql = <<~SQL.squish
       SELECT SPLIT_PART(url, ?, 1) as just_url
         , count(SPLIT_PART(url, ?, 1)) as page_count
@@ -19,6 +19,19 @@ class Visit < ApplicationRecord
       ORDER BY count(SPLIT_PART(url, ?, 1)) desc
     SQL
     visits = Visit.find_by_sql([sql, '?', '?', Time.zone.now - 1.year, '?', '?'])
-    visits.map { |v| StatsItem.new(v['just_url'], v['page_count'], total) }
+    visits.map { |v| [v['just_url'], v['page_count']] }
+  end
+
+  def self.by_date
+    sql = <<-SQL.squish
+      SELECT created_at::timestamp::date as visit_date
+        , count(created_at::timestamp::date) as visit_count
+      FROM visits
+      WHERE created_at >= ?
+      GROUP BY created_at::timestamp::date
+      ORDER BY created_at::timestamp::date
+    SQL
+    visits = Visit.find_by_sql([sql, Time.zone.now - 1.year])
+    visits.map { |v| [v['visit_date'].strftime('%Y-%m-%d'), v['visit_count']] }
   end
 end

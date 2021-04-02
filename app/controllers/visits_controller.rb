@@ -3,13 +3,13 @@ class VisitsController < ApplicationController
   skip_forgery_protection
 
   def index
-    @visits = Visit.limit(100).order(created_at: :desc)
-    @total_visits = Visit.total_visits
-    @by_page = Visit.by_page(@total_visits)
+    # Future: start/end date range to come from params
+    @stats = Stats.new(Time.zone.now, Time.zone.now - 1.year)
+    @stats.collect
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: { total_visits: @total_visits, by_page: @by_page, visits: @visits } }
+      format.json { render json: @stats.raw_data }
     end
   end
 

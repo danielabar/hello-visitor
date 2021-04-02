@@ -33,6 +33,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # User authentication
 gem 'devise'
 
+# Charts https://github.com/ankane/chartkick
+gem "chartkick"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

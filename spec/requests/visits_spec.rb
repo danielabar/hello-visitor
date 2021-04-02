@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Visits', type: :request do
   let(:user) { FactoryBot.create(:user) }
-  let!(:visit1) { FactoryBot.create(:visit, referrer: 'test1', url: 'https://example.com/page1') }
-  let!(:visit2) { FactoryBot.create(:visit, referrer: 'test2', url: 'https://example.com/page1') }
-  let!(:visit3) { FactoryBot.create(:visit, referrer: 'test3', url: 'https://example.com/page2') }
+  let!(:visit1) { FactoryBot.create(:visit, url: 'https://example.com/page1', created_at: Time.zone.now - 5.days) }
+  let!(:visit2) { FactoryBot.create(:visit, url: 'https://example.com/page1', created_at: Time.zone.now - 1.day) }
+  let!(:visit3) { FactoryBot.create(:visit, url: 'https://example.com/page2', created_at: Time.zone.now - 1.day) }
 
   context 'Authenticated' do
     before(:each) do
@@ -19,13 +19,15 @@ RSpec.describe 'Visits', type: :request do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body['total_visits']).to eq(3)
 
-        expect(parsed_body['by_page'][0]['value']).to eq('https://example.com/page1')
-        expect(parsed_body['by_page'][0]['count']).to eq(2)
-        expect(parsed_body['by_page'][0]['total']).to eq(3)
+        expect(parsed_body['by_page'][0][0]).to eq('https://example.com/page1')
+        expect(parsed_body['by_page'][0][1]).to eq(2)
+        expect(parsed_body['by_page'][1][0]).to eq('https://example.com/page2')
+        expect(parsed_body['by_page'][1][1]).to eq(1)
 
-        expect(parsed_body['by_page'][1]['value']).to eq('https://example.com/page2')
-        expect(parsed_body['by_page'][1]['count']).to eq(1)
-        expect(parsed_body['by_page'][1]['total']).to eq(3)
+        expect(parsed_body['by_date'][0][0]).to eq(visit1.created_at.strftime('%Y-%m-%d'))
+        expect(parsed_body['by_date'][0][1]).to eq(1)
+        expect(parsed_body['by_date'][1][0]).to eq(visit2.created_at.strftime('%Y-%m-%d'))
+        expect(parsed_body['by_date'][1][1]).to eq(2)
       end
     end
 
