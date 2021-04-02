@@ -2,11 +2,11 @@
   <h1>Visits</h1>
 
   <div class="summary">
-    <p>Total Visits: <span><%= @total_visits %></span></p>
+    <p>Total Visits: <span><%= @stats.total_visits %></span></p>
   </div>
 
-  <%= bar_chart @by_page, xtitle: "Number of Visits", ytitle: "URL" %>
+  <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL" %>
 
-  <%= line_chart @by_date, xtitle: "Date", ytitle: "Number of Visits", curve: false %>
+  <%= line_chart @stats.by_date, id: "by_date", xtitle: "Date", ytitle: "Number of Visits", curve: false %>
 
 </div>
