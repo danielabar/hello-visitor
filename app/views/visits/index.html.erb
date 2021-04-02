@@ -5,7 +5,7 @@
     <p>Total Visits: <span><%= @total_visits %></span></p>
   </div>
 
-  <%= bar_chart @by_page2, xtitle: "URL", ytitle: "Number of Visits" %>
+  <%= bar_chart @by_page, xtitle: "Number of Visits", ytitle: "URL" %>
 
   <%= line_chart @by_date, xtitle: "Date", ytitle: "Number of Visits", curve: false %>
 

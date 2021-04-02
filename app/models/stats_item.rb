@@ -1,3 +1,4 @@
+# TODO: No longer used
 class StatsItem
   attr_reader :value, :count
 

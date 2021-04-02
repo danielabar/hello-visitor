@@ -5,8 +5,7 @@ class VisitsController < ApplicationController
   def index
     @visits = Visit.limit(100).order(created_at: :desc)
     @total_visits = Visit.total_visits
-    @by_page = Visit.by_page(@total_visits)
-    @by_page2 = Visit.by_page2
+    @by_page = Visit.by_page
     @by_date = Visit.by_date
 
     raw_data = { total_visits: @total_visits, by_page: @by_page, by_date: @by_date, visits: @visits }
