@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+.app-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.app-title {
+  font-size: 28px;
+  opacity: 0.7;
+}

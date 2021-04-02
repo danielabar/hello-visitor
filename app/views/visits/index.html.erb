@@ -1,12 +1,16 @@
 <div class="visits">
-  <h1>Visits</h1>
-
-  <div class="summary">
+  <div class="chart-wrapper">
+    <h2 class="chart-header">Summary</h2>
     <p>Total Visits: <span><%= @stats.total_visits %></span></p>
   </div>
 
-  <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL" %>
+  <div class="chart-wrapper">
+    <h2 class="chart-header">Visits by Day</h2>
+    <%= line_chart @stats.by_date, id: "by_date", xtitle: "Date", ytitle: "Number of Visits", curve: false %>
+  </div>
 
-  <%= line_chart @stats.by_date, id: "by_date", xtitle: "Date", ytitle: "Number of Visits", curve: false %>
-
+  <div class="chart-wrapper">
+    <h2 class="chart-header">Visits by Page</h2>
+    <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL" %>
+  </div>
 </div>
