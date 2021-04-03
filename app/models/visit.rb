@@ -22,6 +22,20 @@ class Visit < ApplicationRecord
     visits.map { |v| [v['just_url'], v['page_count']] }
   end
 
+  def self.by_referrer
+    sql = <<~SQL.squish
+      select trim(trailing '/' from referrer) as referrer
+        , count(trim(trailing '/' from referrer)) as visit_count
+      from visits
+      where created_at >= ?
+        and length(referrer) > 0
+      group by trim(trailing '/' from referrer)
+      order by count(trim(trailing '/' from referrer)) desc;
+    SQL
+    visits = Visit.find_by_sql([sql, Time.zone.now - 1.year])
+    visits.map { |v| [v['referrer'], v['visit_count']] }
+  end
+
   def self.by_date
     sql = <<-SQL.squish
       SELECT created_at::timestamp::date as visit_date
