@@ -14,7 +14,16 @@
 
 [constraint POST /visits](https://stackoverflow.com/questions/27852655/can-i-accept-post-request-only-from-a-domain-name) by domain.
 
+## Visits Index View: Summary Component
+
+- total visits (already done)
+- average daily visits
+- total unique visits
+- average daily unique visits?
+
 ## Visits Index View: Date Controls
+
+Display current date range for which data is being shown.
 
 Buttons for last 30 days, last 1 day, last 1 year.
 
