@@ -14,13 +14,6 @@
 
 [constraint POST /visits](https://stackoverflow.com/questions/27852655/can-i-accept-post-request-only-from-a-domain-name) by domain.
 
-## Visits Index View
-
-Visualize data from today to 1 year ago:
-  - top referrers (horizontal bar chart)
-  - number of visits per day (line chart)
-  - average daily visits
-
 ## Visits Index View: Date Controls
 
 Buttons for last 30 days, last 1 day, last 1 year.
@@ -41,3 +34,11 @@ How long user has been on page: https://stackoverflow.com/questions/147636/best-
 Parse user agent - as it comes in? - maybe do in worker that updates record later.
 
 Save country from ip: https://stackoverflow.com/questions/1988049/getting-a-user-country-name-from-originating-ip-address-with-ruby-on-rails - maybe do in worker that updates record later.
+
+## Design
+
+- Font(s)
+- Layout
+- Colors
+- Logo???
+- etc...
