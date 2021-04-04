@@ -11,7 +11,7 @@ RSpec.describe Visit, type: :model do
   end
 
   describe 'by_page' do
-    it 'Returns an array of arrays in order of page count, representing visits grouped by url' do
+    it 'Returns an array of arrays in order of visit count, representing visits grouped by url' do
       FactoryBot.create(:visit, url: 'https://example.com/page1')
       FactoryBot.create(:visit, url: 'https://example.com/page1')
       FactoryBot.create(:visit, url: 'https://example.com/page2')
@@ -36,6 +36,32 @@ RSpec.describe Visit, type: :model do
       expect(result.length).to eq(1)
       expect(result[0][0]).to eq(v.url)
       expect(result[0][1]).to eq(1)
+    end
+  end
+
+  describe 'by_referrer' do
+    it 'Returns an array of arrays in order of visit count, representing visits grouped by referrer' do
+      FactoryBot.create(:visit, url: 'https://example.com/page1', referrer: 'https://www.google.com')
+      FactoryBot.create(:visit, url: 'https://example.com/page2', referrer: 'https://www.google.com')
+      FactoryBot.create(:visit, url: 'https://example.com/page3', referrer: 'https://www.linkedin.com')
+
+      result = Visit.by_referrer
+
+      expect(result.length).to eq(2)
+
+      expect(result[0][0]).to eq('https://www.google.com')
+      expect(result[0][1]).to eq(2)
+
+      expect(result[1][0]).to eq('https://www.linkedin.com')
+      expect(result[1][1]).to eq(1)
+    end
+
+    it 'Does not count visits with no referrer' do
+      FactoryBot.create_list(:visit, 10)
+
+      result = Visit.by_referrer
+
+      expect(result).to eq([])
     end
   end
 

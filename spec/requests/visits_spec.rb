@@ -28,6 +28,8 @@ RSpec.describe 'Visits', type: :request do
         expect(parsed_body['by_date'][0][1]).to eq(1)
         expect(parsed_body['by_date'][1][0]).to eq(visit2.created_at.strftime('%Y-%m-%d'))
         expect(parsed_body['by_date'][1][1]).to eq(2)
+
+        expect(parsed_body['by_referrer']).to eq([])
       end
     end
 
