@@ -12,5 +12,9 @@ FactoryBot.define do
     trait :twitter do
       referrer { 'https://t.co' }
     end
+
+    trait :random_referrer do
+      referrer { Faker::Internet.url }
+    end
   end
 end

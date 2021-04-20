@@ -37,6 +37,12 @@ RSpec.describe Visit, type: :model do
       expect(result[0][0]).to eq(v.url)
       expect(result[0][1]).to eq(1)
     end
+
+    it 'Limits to 15 groups' do
+      FactoryBot.create_list(:visit, 20)
+      result = Visit.by_page
+      expect(result.length).to eq(15)
+    end
   end
 
   describe 'by_referrer' do
@@ -58,10 +64,14 @@ RSpec.describe Visit, type: :model do
 
     it 'Does not count visits with no referrer' do
       FactoryBot.create_list(:visit, 10)
-
       result = Visit.by_referrer
-
       expect(result).to eq([])
+    end
+
+    it 'Limits to 15 groups' do
+      FactoryBot.create_list(:visit, 20, :random_referrer)
+      result = Visit.by_referrer
+      expect(result.length).to eq(15)
     end
   end
 
