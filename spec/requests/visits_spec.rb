@@ -17,7 +17,7 @@ RSpec.describe 'Visits', type: :request do
         expect(response).to have_http_status(:success)
 
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body['total_visits']).to eq(3)
+        expect(parsed_body['summary']['total_visits']).to eq(3)
 
         expect(parsed_body['by_page'][0][0]).to eq('https://example.com/page1')
         expect(parsed_body['by_page'][0][1]).to eq(2)
