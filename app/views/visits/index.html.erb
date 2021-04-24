@@ -2,11 +2,21 @@
   <div class="chart-wrapper">
     <h2 class="chart-header">Summary</h2>
     <div class="summary-container">
-      <p class="summary-label">Total Visits: <span class="summary-value"><%= @stats.summary[:total_visits] %></span></p>
-      <p class="summary-label">Average Daily Visits: <span class="summary-value"><%= @stats.summary[:avg_daily_visits] %></span></p>
-      <p class="summary-label">Median Daily Visits: <span class="summary-value"><%= @stats.summary[:median_daily_visits] %></span></p>
-      <p class="summary-label">Max Visits: <span class="summary-value"><%= @stats.summary[:max_visits] %></span></p>
-      <p class="summary-label">Min Visits: <span class="summary-value"><%= @stats.summary[:min_visits] %></span></p>
+      <div class="stats-entry">
+        <span class="summary-label">Total Visits</span><span class="summary-value"><%= @stats.summary[:total_visits] %></span>
+      </div>
+      <div class="stats-entry">
+        <span class="summary-label">Average Daily Visits</span><span class="summary-value"><%= @stats.summary[:avg_daily_visits] %></span>
+      </div>
+      <div class="stats-entry">
+        <span class="summary-label">Median Daily Visits</span><span class="summary-value"><%= @stats.summary[:median_daily_visits] %></span>
+      </div>
+      <div class="stats-entry">
+        <span class="summary-label">Max Visits</span><span class="summary-value"><%= @stats.summary[:max_visits] %></span>
+      </div>
+      <div class="stats-entry">
+        <span class="summary-label">Min Visits</span><span class="summary-value"><%= @stats.summary[:min_visits] %></span>
+      </div>
     </div>
   </div>
 
