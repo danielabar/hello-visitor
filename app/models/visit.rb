@@ -11,13 +11,29 @@ class Visit < ApplicationRecord
       .count
   end
 
-  # TODO: total and average daily visits in one query - uses subselect
-  # select avg(visit_count)::numeric(10)
-  #   , sum(visit_count) FROM
-  # (SELECT created_at::timestamp::date as visit_date
-  #      , count(created_at::timestamp::date) as visit_count
-  # FROM visits
-  # GROUP BY created_at::timestamp::date) myalias
+  def self.summary
+    sql = <<~SQL.squish
+      select avg(visit_count)::numeric(10) as avg_daily_visits
+        , sum(visit_count)::numeric(10) as total_visits
+        , PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY visit_count)::numeric(10) as median_daily_visits
+        , min(visit_count)::numeric(10) as min_visits
+        , max(visit_count)::numeric(10) as max_visits
+       FROM
+      (SELECT created_at::timestamp::date as visit_date
+           , count(created_at::timestamp::date) as visit_count
+      FROM visits
+      WHERE created_at >= ?
+      GROUP BY created_at::timestamp::date) visits_by_day
+    SQL
+    visits = Visit.find_by_sql([sql, Time.zone.now - 1.year])
+    {
+      avg_daily_visits: visits[0]['avg_daily_visits'],
+      total_visits: visits[0]['total_visits'],
+      median_daily_visits: visits[0]['median_daily_visits'],
+      min_visits: visits[0]['min_visits'],
+      max_visits: visits[0]['max_visits']
+    }
+  end
 
   def self.by_page
     sql = <<~SQL.squish

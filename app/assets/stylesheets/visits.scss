@@ -13,4 +13,19 @@
       text-transform: uppercase;
     }
   }
+
+  .summary-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .summary-label {
+    font-size: 16px;
+    opacity: 0.7;
+  }
+
+  .summary-value {
+    font-size: 20px;
+    letter-spacing: 1.2px;
+  }
 }

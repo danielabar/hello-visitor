@@ -10,7 +10,11 @@ RSpec.describe Stats, type: :model do
       stats = Stats.new(Time.zone.now, Time.zone.now - 1.year)
       stats.collect
 
-      expect(stats.total_visits).to eq(3)
+      expect(stats.summary[:total_visits]).to eq(3)
+      expect(stats.summary[:min_visits]).to eq(1)
+      expect(stats.summary[:max_visits]).to eq(2)
+      expect(stats.summary[:avg_daily_visits]).to eq(2)
+      expect(stats.summary[:median_daily_visits]).to eq(2)
 
       expect(stats.by_page[0][0]).to eq('https://ex.com/p1')
       expect(stats.by_page[0][1]).to eq(2)

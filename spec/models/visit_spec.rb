@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Visit, type: :model do
+  describe 'summary' do
+    it 'Returns summary stats' do
+      FactoryBot.create_list(:visit, 20, created_at: 5.days.ago)
+      FactoryBot.create_list(:visit, 2, created_at: 4.days.ago)
+      FactoryBot.create_list(:visit, 6, created_at: 3.days.ago)
+
+      result = Visit.summary
+
+      expect(result[:min_visits]).to eq(2)
+      expect(result[:max_visits]).to eq(20)
+      expect(result[:total_visits]).to eq(28)
+      expect(result[:avg_daily_visits]).to eq(9)
+      expect(result[:median_daily_visits]).to eq(6)
+      pp result
+    end
+  end
+
   describe 'total_visits' do
     it 'Returns count of visits within the last year' do
       FactoryBot.create_list(:visit, 10)
