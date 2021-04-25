@@ -26,13 +26,13 @@
   </div>
 
   <div class="chart-wrapper">
-    <h2 class="chart-header">Top 15 Visits by Page</h2>
-    <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Visits by Page' } } } %>
+    <h2 class="chart-header">Top Pages</h2>
+    <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Top Pages' } } } %>
   </div>
 
   <div class="chart-wrapper">
-    <h2 class="chart-header">Top 15 Visits by Referrer</h2>
-    <%= bar_chart @stats.by_referrer, id: "by_referrer", xtitle: "Number of Visits", ytitle: "Referrer", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Visits by Referrer' } } } %>
+    <h2 class="chart-header">Top Referrers</h2>
+    <%= bar_chart @stats.by_referrer, id: "by_referrer", xtitle: "Number of Visits", ytitle: "Referrer", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Top Referrers' } } } %>
   </div>
 </div>
 

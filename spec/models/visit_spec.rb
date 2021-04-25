@@ -14,7 +14,6 @@ RSpec.describe Visit, type: :model do
       expect(result[:total_visits]).to eq(28)
       expect(result[:avg_daily_visits]).to eq(9)
       expect(result[:median_daily_visits]).to eq(6)
-      pp result
     end
   end
 
