@@ -6,13 +6,12 @@ class Stats
     @end_date = end_date
   end
 
-  # Future: pass start/end dates to Visit model methods to limit data returned
   def collect
     @visits = Visit.limit(100).order(created_at: :desc)
-    @summary = Visit.summary
-    @by_page = Visit.by_page
-    @by_referrer = Visit.by_referrer
-    @by_date = Visit.by_date
+    @summary = Visit.summary(@start_date, @end_date)
+    @by_page = Visit.by_page(@start_date, @end_date)
+    @by_referrer = Visit.by_referrer(@start_date, @end_date)
+    @by_date = Visit.by_date(@start_date, @end_date)
     @raw_data = { summary: @summary,
                   by_page: @by_page, by_date: @by_date, by_referrer: @by_referrer, visits: @visits }
   end

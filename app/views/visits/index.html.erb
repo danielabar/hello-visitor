@@ -1,4 +1,11 @@
 <div class="visits">
+  <div class="action-wrapper">
+    <%= link_to 'Last 48 hours', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 48.hours) %>
+    <%= link_to 'Last week', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.week) %>
+    <%= link_to 'Last month', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.month) %>
+    <%= link_to 'Last year', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.year) %>
+  </div>
+
   <div class="chart-wrapper">
     <h2 class="chart-header">Summary</h2>
     <div class="summary-container">

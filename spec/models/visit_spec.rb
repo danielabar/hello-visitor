@@ -17,15 +17,6 @@ RSpec.describe Visit, type: :model do
     end
   end
 
-  describe 'total_visits' do
-    it 'Returns count of visits within the last year' do
-      FactoryBot.create_list(:visit, 10)
-      FactoryBot.create_list(:visit, 5, created_at: Time.zone.now - 2.years)
-
-      expect(Visit.total_visits).to eq(10)
-    end
-  end
-
   describe 'by_page' do
     it 'Returns an array of arrays in order of visit count, representing visits grouped by url' do
       FactoryBot.create(:visit, url: 'https://example.com/page1')
