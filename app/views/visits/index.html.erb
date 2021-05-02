@@ -1,9 +1,17 @@
 <div class="visits">
   <div class="action-wrapper">
-    <%= link_to 'Last 48 hours', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 48.hours) %>
-    <%= link_to 'Last week', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.week) %>
-    <%= link_to 'Last month', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.month) %>
-    <%= link_to 'Last year', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.year) %>
+    <div class="link-wrapper <%= 'active' if @date_range.num_days == 365 %>">
+      <%= link_to 'Last year', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.year), class: "action-link" %>
+    </div>
+    <div class="link-wrapper <%= 'active' if @date_range.num_days >= 28 && @date_range.num_days <= 31 %>">
+      <%= link_to 'Last month', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.month), class: "action-link" %>
+    </div>
+    <div class="link-wrapper <%= 'active' if @date_range.num_days == 7 %>">
+      <%= link_to 'Last week', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.week), class: "action-link" %>
+    </div>
+    <div class="link-wrapper <%= 'active' if @date_range.num_days == 2 %>">
+      <%= link_to 'Last 2 days', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 2.days), class: "action-link" %>
+    </div>
   </div>
 
   <div class="chart-wrapper">

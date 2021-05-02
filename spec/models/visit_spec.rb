@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Visit, type: :model do
   describe 'summary' do
-    it 'Returns summary stats' do
-      FactoryBot.create_list(:visit, 20, created_at: 5.days.ago)
-      FactoryBot.create_list(:visit, 2, created_at: 4.days.ago)
-      FactoryBot.create_list(:visit, 6, created_at: 3.days.ago)
+    it 'Returns summary stats for last year' do
+      FactoryBot.create_list(:visit, 20, created_at: 360.days.ago)
+      FactoryBot.create_list(:visit, 2, created_at: 300.days.ago)
+      FactoryBot.create_list(:visit, 6, created_at: 290.days.ago)
 
       result = Visit.summary
 
@@ -14,6 +14,25 @@ RSpec.describe Visit, type: :model do
       expect(result[:total_visits]).to eq(28)
       expect(result[:avg_daily_visits]).to eq(9)
       expect(result[:median_daily_visits]).to eq(6)
+    end
+
+    it 'Returns summary stats for last week' do
+      # these should all be ignored
+      FactoryBot.create_list(:visit, 20, created_at: 360.days.ago)
+      FactoryBot.create_list(:visit, 2, created_at: 300.days.ago)
+      FactoryBot.create_list(:visit, 6, created_at: 290.days.ago)
+
+      # these should be included
+      FactoryBot.create_list(:visit, 10, created_at: 6.days.ago)
+      FactoryBot.create_list(:visit, 5, created_at: 1.day.ago)
+
+      result = Visit.summary(Time.zone.now - 7.days, Time.zone.now)
+
+      expect(result[:min_visits]).to eq(5)
+      expect(result[:max_visits]).to eq(10)
+      expect(result[:total_visits]).to eq(15)
+      expect(result[:avg_daily_visits]).to eq(8)
+      expect(result[:median_daily_visits]).to eq(8)
     end
   end
 
