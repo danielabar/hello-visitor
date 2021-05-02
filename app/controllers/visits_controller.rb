@@ -3,8 +3,8 @@ class VisitsController < ApplicationController
   skip_forgery_protection
 
   def index
-    # Future: start/end date range to come from params
-    @stats = Stats.new(Time.zone.now, Time.zone.now - 1.year)
+    @date_range = DateRange.new(params[:range_start], params[:range_end])
+    @stats = Stats.new(@date_range.start_date, @date_range.end_date)
     @stats.collect
 
     respond_to do |format|
