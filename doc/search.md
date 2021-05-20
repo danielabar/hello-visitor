@@ -1,0 +1,46 @@
+# Search
+
+## Ingest Documents
+
+Generate `search.sql` from source (eg: Gatsby blog markdown files)
+
+```
+psql -h 127.0.0.1 -d hello -U hello -f ~/projects/meblog/search.sql
+```
+
+## Postgres Full Text Search
+
+Multiple search terms separated by `&` or `|`.
+
+```sql
+SELECT
+  title,
+  slug,
+  published_at,
+  ts_rank(
+    to_tsvector('english', description) || to_tsvector('english', title) || to_tsvector('english', category) || to_tsvector('english', body),
+    to_tsquery('english', 'ruby & rails')
+  ) AS rank
+FROM documents
+WHERE
+  to_tsvector('english', description) || to_tsvector('english', title) || to_tsvector('english', category) || to_tsvector('english', body) @@
+  to_tsquery('english', 'ruby & rails')
+ORDER BY rank DESC
+LIMIT 3;
+```
+
+## Integrate with Rails
+
+Follow this [post](https://pganalyze.com/blog/full-text-search-ruby-rails-postgres)
+
+Read [pg_search docs](https://github.com/Casecommons/pg_search/)
+
+Expose an endpoint to return results like:
+
+```ruby
+Document.search_doc("rails").limit(3)
+```
+
+Where `rails` replaced with param[:q].
+
+Note that multiple search terms have to be separated by `&`
