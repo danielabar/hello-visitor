@@ -1,10 +1,8 @@
 class SearchController < ApplicationController
-  # TODO: default search term should come from config/env var
-  # TODO: max number of search results shoudl come from config/env var
   # TODO: log searches in new table: search_log
   def index
-    q = ActionController::Base.helpers.sanitize(params[:q] || 'programming')
-    docs = Document.search_doc(q).limit(3)
+    q = ActionController::Base.helpers.sanitize(params[:q] || Rails.configuration.search['default_search_term'])
+    docs = Document.search_doc(q).limit(Rails.configuration.search['max_search_results'])
     results = docs.map(&:to_api)
 
     respond_to do |format|

@@ -1,0 +1,12 @@
+default: &default
+  default_search_term: <%= ENV['DEFAULT_SEARCH_TERM'] || 'programming' %>
+  max_search_results: <%= ENV['MAX_SEARCH_RESULTS'] || 3 %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

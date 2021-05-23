@@ -1,5 +1,7 @@
 # Search
 
+## Usage
+
 ## Generate Data
 
 Generate `search.sql` from source (eg: Gatsby blog markdown files). Recommend [upsert](https://www.postgresqltutorial.com/postgresql-upsert/) format, for example:
@@ -24,7 +26,15 @@ DO NOTHING;
 psql -h 127.0.0.1 -d hello -U hello -f ~/projects/meblog/search.sql
 ```
 
-## Postgres Full Text Search
+## Start Server with Optional Configuration
+
+DEFAULT_SEARCH_TERM=rails MAX_SEARCH_RESULTS=5 bundle exec rails s
+
+See `config/search.yml` for default configuration.
+
+## Development Details
+
+### Postgres Full Text Search
 
 Multiple search terms separated by `&` or `|`.
 
@@ -45,7 +55,7 @@ ORDER BY rank DESC
 LIMIT 3;
 ```
 
-## Integrate with Rails
+### Integrate with Rails
 
 Follow this [post](https://pganalyze.com/blog/full-text-search-ruby-rails-postgres)
 
