@@ -17,6 +17,12 @@ RSpec.describe Document, type: :model do
                              Then forget all that and just hack.')
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:title) }
+    it { should validate_uniqueness_of(:title) }
+    it { should validate_presence_of(:body) }
+  end
+
   describe 'search_doc' do
     it 'searches documents via full text search' do
       results = Document.search_doc('code')

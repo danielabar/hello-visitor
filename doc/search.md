@@ -1,8 +1,24 @@
 # Search
 
-## Ingest Documents
+## Generate Data
 
-Generate `search.sql` from source (eg: Gatsby blog markdown files)
+Generate `search.sql` from source (eg: Gatsby blog markdown files). Recommend [upsert](https://www.postgresqltutorial.com/postgresql-upsert/) format, for example:
+
+```sql
+INSERT INTO documents(title, description, category, published_at, slug, body, created_at, updated_at)
+VALUES(
+  'Navigate Back & Forth in VS Code',
+  'How to Navigate Back and Forth in VS Code',
+  'vscode',
+  '2020-02-23',
+  '/blog/how-to-navigate-back-and-forth-in-vscode/',
+  'post body...',
+  now(),
+  now())
+ON CONFLICT (title)
+DO NOTHING;
+```
+## Ingest Documents
 
 ```
 psql -h 127.0.0.1 -d hello -U hello -f ~/projects/meblog/search.sql

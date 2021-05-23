@@ -4,6 +4,9 @@ class Document < ApplicationRecord
                   against: %i[title description category body],
                   using: { tsearch: { dictionary: 'english' } }
 
+  validates :title, presence: true, uniqueness: true
+  validates :body, presence: true
+
   def to_api
     {
       title: title,
