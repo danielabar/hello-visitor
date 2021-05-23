@@ -33,6 +33,17 @@ RSpec.describe Document, type: :model do
     end
   end
 
+  describe 'search' do
+    it 'searches and converts results to api format' do
+      expect(Rails.logger).to receive(:info).with(/Search: query = code, num results = 2/).and_call_original
+      results = Document.search('code')
+
+      expect(results.length).to eq(2)
+      expect(results[0]).to eq(doc1.to_api)
+      expect(results[1]).to eq(doc2.to_api)
+    end
+  end
+
   describe 'to_api' do
     it 'returns a subset of fields' do
       expected_obj = {

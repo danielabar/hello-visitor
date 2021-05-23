@@ -25,3 +25,8 @@ Accept: application/json
 
 GET {{host}}/search?q=
 Accept: application/json
+
+###
+
+GET {{host}}/search?q=zzzzzzzzz
+Accept: application/json
