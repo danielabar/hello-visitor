@@ -16,6 +16,9 @@ heroku run rake db:migrate
 heroku config:set ALLOWED_ORIGIN=https://whatever.com
 heroku config
 
+# Ingest search documents
+cat ~/path/to/search.sql | heroku pg:psql --app app-name
+
 # Run a Rails console
 heroku run rails console
 
