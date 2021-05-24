@@ -23,12 +23,14 @@ DO NOTHING;
 ## Ingest Documents
 
 ```
-psql -h 127.0.0.1 -d hello -U hello -f ~/projects/meblog/search.sql
+psql -h 127.0.0.1 -d hello -U hello -f ~/path/to/search.sql
 ```
 
 ## Start Server with Optional Configuration
 
+```
 DEFAULT_SEARCH_TERM=rails MAX_SEARCH_RESULTS=5 bundle exec rails s
+```
 
 See `config/search.yml` for default configuration.
 
@@ -68,5 +70,3 @@ Document.search_doc("rails").limit(3)
 ```
 
 Where `rails` replaced with param[:q].
-
-Note that multiple search terms have to be separated by `&`
