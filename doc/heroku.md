@@ -30,4 +30,7 @@ heroku open
 
 # Monitor logs
 heroku logs --tail
+
+# psql
+heroku pg:psql db-name --app app-name
 ```
