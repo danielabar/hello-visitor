@@ -51,7 +51,8 @@ RSpec.describe Document, type: :model do
         description: doc1.description,
         category: doc1.category,
         published_at: doc1.published_at,
-        slug: doc1.slug
+        slug: doc1.slug,
+        excerpt: doc1.excerpt
       }
 
       expect(doc1.to_api).to eq(expected_obj)

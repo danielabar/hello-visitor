@@ -21,7 +21,8 @@ class Document < ApplicationRecord
       description: description,
       category: category,
       published_at: published_at,
-      slug: slug
+      slug: slug,
+      excerpt: excerpt
     }
   end
 end
