@@ -1,5 +1,6 @@
 class VisitsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
+  before_action :log_request, only: %i[create]
   skip_forgery_protection
 
   def index
@@ -42,5 +43,9 @@ class VisitsController < ApplicationController
   def sanitize
     @visit.user_agent = ActionController::Base.helpers.sanitize(@visit.user_agent)
     @visit.url = ActionController::Base.helpers.sanitize(@visit.url)
+  end
+
+  def log_request
+    Rails.logger.info("=== url = #{request.url}, host = #{request.host}, domain = #{request.domain}, protocol = #{request.protocol}, port = #{request.port}")
   end
 end
