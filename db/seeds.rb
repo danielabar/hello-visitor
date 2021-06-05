@@ -34,13 +34,22 @@ def assign_url
   end
 end
 
+def assign_visit_date
+  favor_recent_months = Faker::Boolean.boolean(true_ratio: 0.7)
+  if favor_recent_months
+    Faker::Date.between(from: 5.months.ago, to: Time.zone.today)
+  else
+    Faker::Date.between(from: 1.year.ago, to: Time.zone.today)
+  end
+end
+
 User.destroy_all
 user = User.new({ email: 'test@example.com', password: 'password', password_confirmation: 'password' })
 user.save!
 
 Visit.destroy_all
 1000.times do |_|
-  visit_date = Faker::Date.between(from: 1.year.ago, to: Time.zone.today)
+  visit_date = assign_visit_date
   with_referrer = Faker::Boolean.boolean(true_ratio: 0.6)
   visit = Visit.new(
     {
