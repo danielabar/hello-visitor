@@ -12,6 +12,9 @@
     <div class="link-wrapper <%= 'active' if @date_range.num_days == 2 %>">
       <%= link_to 'Last 2 days', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 2.days), class: "action-link" %>
     </div>
+    <div class="link-wrapper">
+      <%= link_to 'Reset Filters', visits_path, class: "reset-link" %>
+    </div>
   </div>
 
   <div class="chart-wrapper">
