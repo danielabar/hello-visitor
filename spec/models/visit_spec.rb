@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Visit, type: :model do
+  describe 'validations' do
+    it { should validate_presence_of(:guest_timezone_offset) }
+    it { should validate_uniqueness_of(:user_agent) }
+    it { should validate_presence_of(:url) }
+
+    describe 'not_a_bot' do
+      it 'rejects bots' do
+        visit = FactoryBot.build(:visit, :google_bot)
+        expect(visit.valid?).to be(false)
+        expect(visit.errors[:user_agent][0]).to eq('No bots allowed')
+      end
+    end
+  end
+
   describe 'summary' do
     it 'Returns summary stats for last year' do
       FactoryBot.create_list(:visit, 20, created_at: 360.days.ago)
