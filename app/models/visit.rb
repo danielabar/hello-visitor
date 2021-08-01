@@ -5,6 +5,13 @@ class Visit < ApplicationRecord
   validates :user_agent, presence: true
   validates :url, presence: true
 
+  validate :not_a_bot
+
+  def not_a_bot
+    browser = Browser.new(user_agent, accept_language: 'en-us')
+    errors.add :user_agent, 'No bots allowed' if browser.bot?
+  end
+
   def self.summary(start_date = Time.zone.now - 1.year, end_date = Time.zone.now)
     sql = <<~SQL.squish
       select avg(visit_count)::numeric(10) as avg_daily_visits

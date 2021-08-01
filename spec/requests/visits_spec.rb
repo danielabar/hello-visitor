@@ -67,6 +67,27 @@ RSpec.describe 'Visits', type: :request do
         expect(Visit.last.guest_timezone_offset).to eq(0)
         expect(Visit.last.remote_ip).not_to be_nil
       end
+
+      it 'Does not record bot visits' do
+        headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+        # rubocop:disable Layout/LineLength
+        params = {
+          guest_timezone_offset: 0,
+          user_agent: 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36',
+          url: Faker::Internet.url(host: 'example.com', scheme: 'https'),
+          referrer: 'https://www.google.com/'
+        }
+        # rubocop:enable Layout/LineLength
+        post '/visits', params: params.to_json, headers: headers
+
+        # by design, always return success response but no new visit should be recorded
+        # 3 is from the initial setup
+        expect(response).to have_http_status(:success)
+        expect(Visit.count).to eq(3)
+      end
     end
   end
 end
