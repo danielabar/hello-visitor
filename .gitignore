@@ -42,3 +42,8 @@ yarn-debug.log*
 
 # Editor/IDE
 .vscode/settings.json
+
+# Local convenience scripts
+scripts/local_search.sh
+scripts/clean.sh
+scripts/clean.sql
