@@ -7,9 +7,21 @@ Free, privacy focused analytics. Just record visits, no creepy.
 
 Before you start, make sure Docker is installed, as well as:
 
-```
+```bash
 rbenv install 2.7.2
 brew install postgresql
+
+# Only needed if don't already have this dir (older homebrew installation)
+sudo mkdir /usr/local/Frameworks
+sudo chown $USER /usr/local/Frameworks
+
+# mimemagic dependency
+brew install shared-mime-info
+bundle install
+
+nvm install
+npm install --global yarn
+yarn install --check-files
 ```
 
 ## Start Services
@@ -45,6 +57,7 @@ user.save
 [Using Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#using-the-cli)
 
 [More useful Heroku commands](doc/heroku.md)
+
 ## TODO
 
 [TODO](doc/todo.md)
