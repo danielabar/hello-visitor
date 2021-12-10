@@ -5,7 +5,7 @@ class VisitsController < ApplicationController
 
   def index
     @date_range = DateRange.new(params[:range_start], params[:range_end])
-    @stats = Stats.new(@date_range.start_date, @date_range.end_date)
+    @stats = Stats.new(@date_range.start_date, @date_range.end_date, params[:url])
     @stats.collect
 
     respond_to do |format|

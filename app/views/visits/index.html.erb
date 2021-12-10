@@ -17,6 +17,14 @@
     </div>
   </div>
 
+  <div class="content-search">
+    <%= form_with url: visits_path, method: :get, local: true do |form| %>
+      <%= form.label :url, "Search for:" %>
+      <%= form.text_field :url %>
+      <%= form.submit "Search" %>
+    <% end %>
+  </div>
+
   <div class="chart-wrapper">
     <h2 class="chart-header">Summary</h2>
     <div class="summary-container">

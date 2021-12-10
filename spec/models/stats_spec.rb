@@ -7,7 +7,7 @@ RSpec.describe Stats, type: :model do
     let!(:visit3) { FactoryBot.create(:visit, :twitter, url: 'https://ex.com/p2', created_at: Time.zone.now - 1.day) }
 
     it 'Collects some visit stats from the Visits model' do
-      stats = Stats.new(Time.zone.now - 1.year, Time.zone.now)
+      stats = Stats.new(Time.zone.now - 1.year, Time.zone.now, '')
       stats.collect
 
       expect(stats.summary[:min_visits]).to eq(1)
