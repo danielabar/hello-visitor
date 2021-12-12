@@ -18,8 +18,8 @@
   </div>
 
   <div class="content-search">
-    <%= form_with url: visits_path, method: :get, local: true do |form| %>
-      <%= form.label :url, "Search for:" %>
+    <%= form_with model: @visit_search, url: visits_path, method: :get, local: true do |form| %>
+      <%= form.label :url, "Search for content:" %>
       <%= form.text_field :url %>
       <%= form.submit "Search" %>
     <% end %>
