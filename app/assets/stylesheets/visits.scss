@@ -110,15 +110,28 @@
     font-family: sans-serif;
     opacity: 0.7;
 
+    .search-input-container {
+      display: inline-block;
+      position: relative;
+    }
+
     .search-input {
       background-color: #f8f8f8;
       border-color: #888888;
       border-radius: 30px;
       border-style: solid;
       border-width: 2px;
+      box-shadow: inset 1px 1px 2px 0 #0000004d;
       font-size: 16px;
       padding: 10px;
       padding-left: 15px;
+    }
+
+    .search-icon {
+      color: darken(#888888, 10);
+      position: absolute;
+      right: 20px;
+      top: 13px;
     }
 
     .search-submit {
