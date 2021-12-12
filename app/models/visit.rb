@@ -71,7 +71,7 @@ class Visit < ApplicationRecord
     visits.map { |v| [v['referrer'], v['visit_count']] }
   end
 
-  def self.by_date(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url='')
+  def self.by_date(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url = '')
     sql = <<-SQL.squish
       SELECT created_at::timestamp::date as visit_date
         , count(created_at::timestamp::date) as visit_count

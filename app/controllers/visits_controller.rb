@@ -46,6 +46,7 @@ class VisitsController < ApplicationController
   end
 
   def log_request
-    Rails.logger.info("=== url = #{request.url}, host = #{request.host}, domain = #{request.domain}, protocol = #{request.protocol}, port = #{request.port}")
+    Rails.logger.info("=== url = #{request.url}, host = #{request.host}, domain = #{request.domain},\
+      protocol = #{request.protocol}, port = #{request.port}")
   end
 end

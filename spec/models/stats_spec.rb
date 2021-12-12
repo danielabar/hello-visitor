@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Stats, type: :model do
   describe '#collect' do
+    # TODO: Generate more data and test search by url
     let!(:visit1) { FactoryBot.create(:visit, :google, url: 'https://ex.com/p1', created_at: Time.zone.now - 5.days) }
     let!(:visit2) { FactoryBot.create(:visit, :twitter, url: 'https://ex.com/p1', created_at: Time.zone.now - 1.day) }
     let!(:visit3) { FactoryBot.create(:visit, :twitter, url: 'https://ex.com/p2', created_at: Time.zone.now - 1.day) }
