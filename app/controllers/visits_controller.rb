@@ -5,8 +5,11 @@ class VisitsController < ApplicationController
 
   def index
     @date_range = DateRange.new(params[:range_start], params[:range_end])
-    @stats = Stats.new(@date_range.start_date, @date_range.end_date)
+    url_search = params.dig(:visit_search, :url)
+    @stats = Stats.new(@date_range.start_date, @date_range.end_date, url_search)
     @stats.collect
+
+    @visit_search = VisitSearch.new(url: url_search)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -46,6 +49,7 @@ class VisitsController < ApplicationController
   end
 
   def log_request
-    Rails.logger.info("=== url = #{request.url}, host = #{request.host}, domain = #{request.domain}, protocol = #{request.protocol}, port = #{request.port}")
+    Rails.logger.info("=== url = #{request.url}, host = #{request.host}, domain = #{request.domain},\
+      protocol = #{request.protocol}, port = #{request.port}")
   end
 end

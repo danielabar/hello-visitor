@@ -23,6 +23,8 @@ gem 'rack-cors'
 gem 'pg_search'
 # User agent parsing
 gem 'browser'
+# Font awesome
+gem "font-awesome-rails"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
