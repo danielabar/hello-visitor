@@ -32,6 +32,22 @@ yarn install --check-files
 
 `make init`
 
+### Local DB Troubleshooting
+
+Connect to Postgres database running in Docker container as `postgres` superuser:
+
+```bash
+psql -h 127.0.0.1 -p 5433 -U postgres
+# enter POSTGRES_PASSWORD from docker-compose.yml
+```
+
+* List all databases: `\l`
+* List all roles: `\du`
+* Connect to a database, for example, hello: `\c hello`
+* List all tables: `\dt`
+
+[Reference](https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/)
+
 ## Run Server
 
 `make serve`

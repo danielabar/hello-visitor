@@ -11,6 +11,7 @@ default: &default
 
 development:
   <<: *default
+  port: 5433
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -18,6 +19,7 @@ development:
 test:
   <<: *default
   database: hello_test
+  port: 5433
 
 production:
   <<: *default

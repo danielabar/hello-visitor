@@ -2,15 +2,17 @@ version: "3.8"
 
 services:
   database:
-    image: postgres:13
+    image: postgres:14
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_pg_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
+      # Map to something other than default 5432 on host in case Postgres is also running natively on host.
+      - "5433:5432"
     environment:
       POSTGRES_PASSWORD: shhhhItsASecret
-      POSTGRES_USER: postgres
+      # No need to specify as `postgres` is the default value
+      # POSTGRES_USER: postgres
 
 volumes:
-  db_data:
+  db_pg_data:
