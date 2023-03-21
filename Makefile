@@ -27,5 +27,8 @@ test:
 reset_db:
 	bundle exec rake db:reset
 
+prepare_test_db:
+	bin/rails db:test:prepare
+
 routes:
 	bundle exec rake routes
