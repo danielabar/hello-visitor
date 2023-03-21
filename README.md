@@ -74,6 +74,17 @@ user.save
 
 [More useful Heroku commands](doc/heroku.md)
 
+## Spring Issues
+
+Upgrade to latest `spring` in `Gemfile` and then one time:
+
+```shell
+# takes a long time
+gem pristine --all
+bundle install
+bundle exec spring binstub --all
+```
+
 ## TODO
 
 [TODO](doc/todo.md)

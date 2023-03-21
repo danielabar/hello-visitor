@@ -23,7 +23,7 @@ DO NOTHING;
 ## Ingest Documents
 
 ```
-psql -h 127.0.0.1 -d hello -U hello -f ~/path/to/search.sql
+psql -h 127.0.0.1 -p 5433 -d hello -U hello -f ~/path/to/search.sql
 ```
 
 ## Start Server with Optional Configuration
