@@ -19,6 +19,10 @@ sudo chown $USER /usr/local/Frameworks
 brew install shared-mime-info
 bundle install
 
+# Unsure if this is needed before or after yarn install?
+bundle exec rails webpacker:install
+
+# Note that node version is 16.0.0, not latest, because: https://stackoverflow.com/questions/74548318/how-to-resolve-error-error0308010cdigital-envelope-routinesunsupported-no
 nvm install
 npm install --global yarn
 yarn install --check-files
@@ -47,6 +51,18 @@ psql -h 127.0.0.1 -p 5433 -U postgres
 * List all tables: `\dt`
 
 [Reference](https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/)
+
+## Compile Assets
+
+```bash
+bin/webpack-dev-server
+```
+OR
+```bash
+bundle exec rake assets:precompile
+# OR
+bundle exec rake assets:precompile RAILS_ENV=development
+```
 
 ## Run Server
 
