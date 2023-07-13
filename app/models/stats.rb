@@ -14,6 +14,6 @@ class Stats
     @by_referrer = Visit.by_referrer(@start_date, @end_date, @url)
     @by_date = Visit.by_date(@start_date, @end_date, @url)
     @raw_data = { summary: @summary,
-                  by_page: @by_page, by_date: @by_date, by_referrer: @by_referrer, visits: @visits }
+                  by_page: @by_page, by_date: @by_date, by_referrer: @by_referrer, visits: @visits.map(&:raw_data) }
   end
 end

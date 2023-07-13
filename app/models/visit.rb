@@ -12,6 +12,17 @@ class Visit < ApplicationRecord
     errors.add :user_agent, 'No bots allowed' if browser.bot?
   end
 
+  def raw_data
+    {
+      id: id,
+      guest_timezone_offset: guest_timezone_offset,
+      user_agent: user_agent,
+      url: url,
+      remote_ip: remote_ip,
+      referrer: referrer
+    }
+  end
+
   def self.summary(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url = '')
     sql = <<~SQL.squish
       select avg(visit_count)::numeric(10) as avg_daily_visits
