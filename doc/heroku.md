@@ -9,6 +9,9 @@ heroku create
 # Deploy main branch
 git push heroku main
 
+# View releases, see also: https://blog.heroku.com/releases-and-rollbacks
+heroku releases --app app-name
+
 # Run migrations
 heroku run rake db:migrate
 

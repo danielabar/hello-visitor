@@ -2,7 +2,7 @@ class DateRange
   attr_reader :start_date, :end_date
 
   def initialize(start_date, end_date)
-    @start_date = Time.zone.parse(start_date || '') || Time.zone.now - 1.year
+    @start_date = Time.zone.parse(start_date || '') || (Time.zone.now - 1.year)
     @end_date = Time.zone.parse(end_date || '') || Time.zone.now
   end
 

@@ -26,7 +26,6 @@ Style/Documentation:
 
 Metrics/BlockLength:
   Max: 25
-  IgnoredMethods: ["describe", "it", "context"]
   Exclude:
     - "spec/**/*.rb"
 
