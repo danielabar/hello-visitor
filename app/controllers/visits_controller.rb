@@ -20,7 +20,7 @@ class VisitsController < ApplicationController
   def show
     @visit = Visit.find(params[:id])
 
-    render json: { visits: @visit }
+    render json: { visits: @visit.raw_data }
   end
 
   def create

@@ -1,5 +1,8 @@
 return unless Rails.env.development?
 
+my_logger = Logger.new($stdout)
+my_logger.info 'Initialized stdout logger for seeds'
+
 TIMEZONE_OFFSETS = [
   420,
   -120,
@@ -43,11 +46,11 @@ def assign_visit_date
   end
 end
 
-User.destroy_all
+my_logger.info('Creating user...')
 user = User.new({ email: 'test@example.com', password: 'password', password_confirmation: 'password' })
 user.save!
 
-Visit.destroy_all
+my_logger.info('Creating visits...')
 1000.times do |_|
   visit_date = assign_visit_date
   with_referrer = Faker::Boolean.boolean(true_ratio: 0.6)
