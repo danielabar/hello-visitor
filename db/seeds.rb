@@ -2,6 +2,9 @@
 
 return unless Rails.env.development?
 
+my_logger = Logger.new($stdout)
+my_logger.info "Initialized stdout logger for seeds"
+
 TIMEZONE_OFFSETS = [
   420,
   -120,
@@ -45,10 +48,12 @@ def assign_visit_date
   end
 end
 
+my_logger.info("Creating user...")
 User.destroy_all
 user = User.new({ email: "test@example.com", password: "password", password_confirmation: "password" })
 user.save!
 
+my_logger.info("Creating visits...")
 Visit.destroy_all
 1000.times do |_|
   visit_date = assign_visit_date

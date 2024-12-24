@@ -9,6 +9,9 @@ init:
 seed:
 	bundle exec rake db:seed
 
+replant:
+	bundle exec rake db:seed:replant
+
 migrate:
 	bundle exec rake db:migrate
 
@@ -20,6 +23,9 @@ serve:
 
 console:
 	bin/rails c
+
+prepare_test_db:
+	bin/rails db:test:prepare
 
 test:
 	bundle exec rspec

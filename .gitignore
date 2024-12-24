@@ -35,3 +35,11 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Editor/IDE
+.vscode/settings.json
+
+# Local convenience scripts
+script/local_search.sh
+script/clean.sh
+script/clean.sql
