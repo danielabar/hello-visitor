@@ -3,7 +3,6 @@
 ## Github Actions
 
 - CI (bundle install, rubocop, rspec)
-- deploy to Heroku?
 
 ## Devise
 

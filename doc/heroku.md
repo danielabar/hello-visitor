@@ -6,17 +6,8 @@ Reference various useful commands, all run from project root:
 # One time only to create app
 heroku create
 
-# Check remotes
-git remote -v
-
-# Only if heroku app not listed it remotes
-git remote add heroku https://git.heroku.com/app-name.git
-
 # Deploy main branch
 git push heroku main
-
-# View releases, see also: https://blog.heroku.com/releases-and-rollbacks
-heroku releases --app app-name
 
 # Run migrations
 heroku run rake db:migrate

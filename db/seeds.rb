@@ -1,7 +1,6 @@
-return unless Rails.env.development?
+# frozen_string_literal: true
 
-my_logger = Logger.new($stdout)
-my_logger.info 'Initialized stdout logger for seeds'
+return unless Rails.env.development?
 
 TIMEZONE_OFFSETS = [
   420,
@@ -14,18 +13,18 @@ TIMEZONE_OFFSETS = [
 ].freeze
 
 PAGES = [
-  'blog/doc1',
-  'blog/doc2',
-  'blog/doc3',
-  'blog/doc4',
-  'blog/doc5'
+  "blog/doc1",
+  "blog/doc2",
+  "blog/doc3",
+  "blog/doc4",
+  "blog/doc5"
 ].freeze
 
 REFERRERS = [
-  'https://www.google.com',
-  'https://www.twitter.com',
-  'https://www.facebook.com',
-  'https://www.linkedin.com'
+  "https://www.google.com",
+  "https://www.twitter.com",
+  "https://www.facebook.com",
+  "https://www.linkedin.com"
 ].freeze
 
 def assign_url
@@ -46,14 +45,14 @@ def assign_visit_date
   end
 end
 
-my_logger.info('Creating user...')
-user = User.new({ email: 'test@example.com', password: 'password', password_confirmation: 'password' })
+User.destroy_all
+user = User.new({ email: "test@example.com", password: "password", password_confirmation: "password" })
 user.save!
 
-my_logger.info('Creating visits...')
+Visit.destroy_all
 1000.times do |_|
   visit_date = assign_visit_date
-  with_referrer = Faker::Boolean.boolean(true_ratio: 0.6)
+  with_referrer = Faker::Boolean.boolean(true_ratio: 0.6) # rubocop:disable Rails/ThreeStateBooleanColumn
   visit = Visit.new(
     {
       guest_timezone_offset: TIMEZONE_OFFSETS[Faker::Number.between(from: 0, to: TIMEZONE_OFFSETS.length - 1)],

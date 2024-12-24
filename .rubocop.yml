@@ -1,36 +1,52 @@
+inherit_from: .rubocop_todo.yml
+
 require:
-  - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-performance
   - rubocop-thread_safety
+  - rubocop-factory_bot
+  - rubocop-capybara
 
 AllCops:
   NewCops: enable
   Exclude:
-    - "db/schema.rb"
-    - "Gemfile"
-    - "lib/tasks/*.rake"
-    - "bin/*"
-    - "node_modules/**/*"
-    - "config/puma.rb"
-    - "config/spring.rb"
-    - "config/environments/development.rb"
-    - "config/environments/production.rb"
-    - "config/initializers/devise.rb"
-    - "spec/spec_helper.rb"
+    - 'db/schema.rb'
+    - 'Gemfile'
+    - 'lib/tasks/*.rake'
+    - 'bin/*'
+    - 'config/puma.rb'
+    - 'config/environments/development.rb'
+    - 'config/environments/production.rb'
+    - 'spec/spec_helper.rb'
 
 Style/FrozenStringLiteralComment:
-  Enabled: false
+  Enabled: true
 
 Style/Documentation:
   Enabled: false
 
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
 Metrics/BlockLength:
-  Max: 25
   Exclude:
-    - "spec/**/*.rb"
+    - 'spec/**/*.rb'
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 15
 
-Metrics/AbcSize:
-  Max: 30
+Layout/LineLength:
+  Max: 120
+
+# Only if not using I18n
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+# Ease up a bit on the default restrictions
+RSpec/ExampleLength:
+  Max: 20
+
+RSpec/MultipleExpectations:
+  Max: 10

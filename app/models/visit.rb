@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Visit < ApplicationRecord
   MAX_GROUPS = 15
 
@@ -8,22 +10,11 @@ class Visit < ApplicationRecord
   validate :not_a_bot
 
   def not_a_bot
-    browser = Browser.new(user_agent, accept_language: 'en-us')
-    errors.add :user_agent, 'No bots allowed' if browser.bot?
+    browser = Browser.new(user_agent, accept_language: "en-us")
+    errors.add :user_agent, "No bots allowed" if browser.bot?
   end
 
-  def raw_data
-    {
-      id: id,
-      guest_timezone_offset: guest_timezone_offset,
-      user_agent: user_agent,
-      url: url,
-      remote_ip: remote_ip,
-      referrer: referrer
-    }
-  end
-
-  def self.summary(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url = '')
+  def self.summary(start_date = 1.year.ago, end_date = Time.zone.now, url = "")
     sql = <<~SQL.squish
       select avg(visit_count)::numeric(10) as avg_daily_visits
         , sum(visit_count)::numeric(10) as total_visits
@@ -41,15 +32,15 @@ class Visit < ApplicationRecord
     SQL
     visits = Visit.find_by_sql([sql, start_date, end_date, "%#{url}%"])
     {
-      avg_daily_visits: visits[0]['avg_daily_visits'],
-      total_visits: visits[0]['total_visits'],
-      median_daily_visits: visits[0]['median_daily_visits'],
-      min_visits: visits[0]['min_visits'],
-      max_visits: visits[0]['max_visits']
+      avg_daily_visits: visits[0]["avg_daily_visits"],
+      total_visits: visits[0]["total_visits"],
+      median_daily_visits: visits[0]["median_daily_visits"],
+      min_visits: visits[0]["min_visits"],
+      max_visits: visits[0]["max_visits"]
     }
   end
 
-  def self.by_page(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url = '')
+  def self.by_page(start_date = 1.year.ago, end_date = Time.zone.now, url = "")
     sql = <<~SQL.squish
       SELECT SPLIT_PART(url, ?, 1) as just_url
         , count(SPLIT_PART(url, ?, 1)) as page_count
@@ -61,11 +52,11 @@ class Visit < ApplicationRecord
       ORDER BY count(SPLIT_PART(url, ?, 1)) desc
       LIMIT #{MAX_GROUPS}
     SQL
-    visits = Visit.find_by_sql([sql, '?', '?', start_date, end_date, "%#{url}%", '?', '?'])
-    visits.map { |v| [v['just_url'], v['page_count']] }
+    visits = Visit.find_by_sql([sql, "?", "?", start_date, end_date, "%#{url}%", "?", "?"])
+    visits.map { |v| [v["just_url"], v["page_count"]] }
   end
 
-  def self.by_referrer(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url = '')
+  def self.by_referrer(start_date = 1.year.ago, end_date = Time.zone.now, url = "")
     sql = <<~SQL.squish
       select trim(trailing '/' from referrer) as referrer
         , count(trim(trailing '/' from referrer)) as visit_count
@@ -79,10 +70,10 @@ class Visit < ApplicationRecord
       LIMIT #{MAX_GROUPS}
     SQL
     visits = Visit.find_by_sql([sql, start_date, end_date, "%#{url}%"])
-    visits.map { |v| [v['referrer'], v['visit_count']] }
+    visits.map { |v| [v["referrer"], v["visit_count"]] }
   end
 
-  def self.by_date(start_date = Time.zone.now - 1.year, end_date = Time.zone.now, url = '')
+  def self.by_date(start_date = 1.year.ago, end_date = Time.zone.now, url = "")
     sql = <<-SQL.squish
       SELECT created_at::timestamp::date as visit_date
         , count(created_at::timestamp::date) as visit_count
@@ -94,6 +85,6 @@ class Visit < ApplicationRecord
       ORDER BY created_at::timestamp::date
     SQL
     visits = Visit.find_by_sql([sql, start_date, end_date, "%#{url}%"])
-    visits.map { |v| [v['visit_date'].strftime('%Y-%m-%d'), v['visit_count']] }
+    visits.map { |v| [v["visit_date"].strftime("%Y-%m-%d"), v["visit_count"]] }
   end
 end

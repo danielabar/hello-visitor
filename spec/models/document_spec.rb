@@ -1,31 +1,37 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe Document, type: :model do
+require "rails_helper"
+
+RSpec.describe Document do
   let!(:doc1) do
-    FactoryBot.create(:document,
-                      body: 'Any fool can write code that a computer can understand. \
+    create(:document,
+           title: "Code for Humans",
+           body: 'Any fool can write code that a computer can understand. \
                              Good programmers write code that humans can understand.')
   end
 
   let!(:doc2) do
-    FactoryBot.create(:document, body: 'Talk is cheap. Show me the code.')
+    create(:document,
+           title: "Show Me the Code",
+           body: "Talk is cheap. Show me the code.")
   end
 
   let!(:doc3) do
-    FactoryBot.create(:document,
-                      body: 'First learn computer science and all the theory. Next develop a programming style. \
+    create(:document,
+           title: "Hack Away",
+           body: 'First learn computer science and all the theory. Next develop a programming style. \
                              Then forget all that and just hack.')
   end
 
-  describe 'validations' do
-    it { should validate_presence_of(:title) }
-    it { should validate_uniqueness_of(:title) }
-    it { should validate_presence_of(:body) }
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_uniqueness_of(:title) }
+    it { is_expected.to validate_presence_of(:body) }
   end
 
-  describe 'search_doc' do
-    it 'searches documents via full text search' do
-      results = Document.search_doc('code')
+  describe "search_doc" do
+    it "searches documents via full text search" do
+      results = described_class.search_doc("code")
 
       expect(results.length).to eq(2)
       expect(results[0].id).to eq(doc1.id)
@@ -33,10 +39,10 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  describe 'search' do
-    it 'searches and converts results to api format' do
+  describe "search" do
+    it "searches and converts results to api format" do
       expect(Rails.logger).to receive(:info).with(/Search: query = code, num results = 2/).and_call_original
-      results = Document.search('code')
+      results = described_class.search("code")
 
       expect(results.length).to eq(2)
       expect(results[0]).to eq(doc1.to_api)
@@ -44,8 +50,8 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  describe 'to_api' do
-    it 'returns a subset of fields' do
+  describe "to_api" do
+    it "returns a subset of fields" do
       expected_obj = {
         title: doc1.title,
         description: doc1.description,
