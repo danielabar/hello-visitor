@@ -3,43 +3,42 @@
 > Look Ma, No Cookies!
 
 Free, privacy focused analytics. Just record visits, no creepy.
-## System Dependencies
 
-Before you start, make sure Docker is installed, as well as:
+## Prerequisites
 
-```bash
-rbenv install 2.7.2
-brew install postgresql
-
-# Only needed if don't already have this dir (older homebrew installation)
-sudo mkdir /usr/local/Frameworks
-sudo chown $USER /usr/local/Frameworks
-
-# mimemagic dependency
-brew install shared-mime-info
-bundle install
-
-nvm install
-npm install --global yarn
-yarn install --check-files
-```
+* Docker
+* Ruby installed with version manager of your choice (see `.ruby-version`)
+* Homebrew
+* `brew install postgresql`
+* `nvm install` (to install Node.js version specified in `.nvmrc`)
 
 ## Start Services
 
-`make`
+Install dependencies, prepare database, and start server:
 
-## Initialize DB
+```bash
+bin/setup
+```
 
-`make init`
+Just start the server:
 
-## Run Server
-
-`bin/dev`
+```bash
+bin/dev
+```
 
 App is at [http://localhost:3000/], login as example user in [seeds](db/seeds.rb).
+
 ## Run Tests
 
-`make rspec`
+```bash
+bin/rspec
+```
+
+## Linting
+
+```bash
+bin/rubocop
+```
 
 ## Deploy
 
