@@ -9,6 +9,7 @@ require:
   - rubocop-factory_bot
   - rubocop-capybara
 
+# CI fix: https://github.com/rubocop/rubocop/issues/9832#issuecomment-873398952
 AllCops:
   NewCops: enable
   Exclude:
@@ -20,6 +21,7 @@ AllCops:
     - 'config/environments/development.rb'
     - 'config/environments/production.rb'
     - 'spec/spec_helper.rb'
+    - 'vendor/bundle/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: true
