@@ -51,8 +51,7 @@ jobs:
           bundler-cache: true
 
       - name: Run RuboCop
-        run: |
-          bin/rubocop -f github
+        run: bundle exec rubocop
 
   test:
     runs-on: ubuntu-latest
