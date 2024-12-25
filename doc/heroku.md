@@ -34,6 +34,9 @@ heroku run rails console
 # List dynos and their status
 heroku ps
 
+# List apps
+heroku apps
+
 # Open app in browser
 heroku open
 

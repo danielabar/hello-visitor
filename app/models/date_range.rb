@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class DateRange
   attr_reader :start_date, :end_date
 
   def initialize(start_date, end_date)
-    @start_date = Time.zone.parse(start_date || '') || (Time.zone.now - 1.year)
-    @end_date = Time.zone.parse(end_date || '') || Time.zone.now
+    @start_date = Time.zone.parse(start_date || "") || 1.year.ago
+    @end_date = Time.zone.parse(end_date || "") || Time.zone.now
   end
 
   # https://stackoverflow.com/questions/19595840/rails-get-the-time-difference-in-hours-minutes-and-seconds

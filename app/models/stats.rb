@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Stats
   attr_reader :visits, :summary, :by_page, :by_referrer, :by_date, :raw_data
 
@@ -14,6 +16,6 @@ class Stats
     @by_referrer = Visit.by_referrer(@start_date, @end_date, @url)
     @by_date = Visit.by_date(@start_date, @end_date, @url)
     @raw_data = { summary: @summary,
-                  by_page: @by_page, by_date: @by_date, by_referrer: @by_referrer, visits: @visits.map(&:raw_data) }
+                  by_page: @by_page, by_date: @by_date, by_referrer: @by_referrer, visits: @visits }
   end
 end

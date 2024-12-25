@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VisitsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
   before_action :log_request, only: %i[create]
@@ -20,7 +22,7 @@ class VisitsController < ApplicationController
   def show
     @visit = Visit.find(params[:id])
 
-    render json: { visits: @visit.raw_data }
+    render json: { visits: @visit }
   end
 
   def create

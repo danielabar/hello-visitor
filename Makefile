@@ -21,20 +21,17 @@ rollback:
 serve:
 	bin/rails s
 
-serve_assets:
-	bin/webpack-dev-server
-
 console:
 	bin/rails c
+
+prepare_test_db:
+	bin/rails db:test:prepare
 
 test:
 	bundle exec rspec
 
 reset_db:
 	bundle exec rake db:reset
-
-prepare_test_db:
-	bin/rails db:test:prepare
 
 routes:
 	bundle exec rake routes

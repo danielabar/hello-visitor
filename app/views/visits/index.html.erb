@@ -1,67 +1,54 @@
-<div class="visits">
-  <div class="action-wrapper">
-    <div class="link-wrapper <%= 'active' if @date_range.num_days == 365 %>">
-      <%= link_to 'Last year', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.year), class: "action-link" %>
-    </div>
-    <div class="link-wrapper <%= 'active' if @date_range.num_days >= 28 && @date_range.num_days <= 31 %>">
-      <%= link_to 'Last month', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.month), class: "action-link" %>
-    </div>
-    <div class="link-wrapper <%= 'active' if @date_range.num_days == 7 %>">
-      <%= link_to 'Last week', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.week), class: "action-link" %>
-    </div>
-    <div class="link-wrapper <%= 'active' if @date_range.num_days == 2 %>">
-      <%= link_to 'Last 2 days', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 2.days), class: "action-link" %>
-    </div>
-    <div class="link-wrapper">
-      <%= link_to 'Reset Filters', visits_path, class: "reset-link" %>
+<div class="space-y-8">
+  <!-- Filter and Search Section -->
+  <div class="bg-white shadow-md rounded-md p-4">
+    <h2 class="text-lg font-medium text-gray-800">Filters & Search</h2>
+    <div class="flex flex-col space-y-4 mt-3">
+      <!-- Filter Options -->
+      <div class="flex space-x-4">
+        <%= link_to 'Last year', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.year), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days == 365} uppercase tracking-wider font-semibold text-sm" %>
+        <%= link_to 'Last month', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.month), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days.between?(28, 31)} uppercase tracking-wider font-semibold text-sm" %>
+        <%= link_to 'Last week', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.week), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days == 7} uppercase tracking-wider font-semibold text-sm" %>
+        <%= link_to 'Last 2 days', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 2.days), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days == 2} uppercase tracking-wider font-semibold text-sm" %>
+        <%= link_to 'Reset Filters', visits_path, class: "px-4 py-2 rounded-md text-red-600 hover:text-red-800 hover:underline uppercase tracking-wider font-semibold text-sm" %>
+      </div>
+
+      <!-- Search Form -->
+      <%= form_with model: @visit_search, url: visits_path, method: :get, local: true, class: "flex items-center space-x-2" do |form| %>
+        <%= form.text_field :url, placeholder: "Filter by content", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        <%= form.submit "Search", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700" %>
+      <% end %>
     </div>
   </div>
 
-  <div class="content-search">
-    <%= form_with model: @visit_search, url: visits_path, method: :get, local: true do |form| %>
-      <div class="search-input-container">
-        <%= form.text_field :url, placeholder: "Content filter", class: 'search-input' %>
-        <%= fa_icon "search", class: 'search-icon' %>
-      </div>
-      <%= form.submit "Search", class: 'search-submit' %>
-    <% end %>
-  </div>
-
-  <div class="chart-wrapper">
-    <h2 class="chart-header">Summary</h2>
-    <div class="summary-container">
-      <div class="stats-entry">
-        <span class="summary-label">Total Visits</span><span class="summary-value"><%= @stats.summary[:total_visits] %></span>
-      </div>
-      <div class="stats-entry">
-        <span class="summary-label">Average Daily Visits</span><span class="summary-value"><%= @stats.summary[:avg_daily_visits] %></span>
-      </div>
-      <div class="stats-entry">
-        <span class="summary-label">Median Daily Visits</span><span class="summary-value"><%= @stats.summary[:median_daily_visits] %></span>
-      </div>
-      <div class="stats-entry">
-        <span class="summary-label">Max Visits</span><span class="summary-value"><%= @stats.summary[:max_visits] %></span>
-      </div>
-      <div class="stats-entry">
-        <span class="summary-label">Min Visits</span><span class="summary-value"><%= @stats.summary[:min_visits] %></span>
+  <!-- Charts -->
+  <div class="space-y-6">
+    <!-- Summary Stats -->
+    <div class="bg-white shadow-md rounded-md p-4">
+      <h2 class="text-lg font-medium text-gray-800">Summary</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
+        <% @stats.summary.each do |label, value| %>
+          <div class="p-3 bg-gray-100 rounded-md shadow-inner text-center">
+            <span class="block text-sm text-gray-500"><%= label.to_s.humanize %></span>
+            <span class="block text-lg font-semibold text-gray-800"><%= value %></span>
+          </div>
+        <% end %>
       </div>
     </div>
-  </div>
 
-  <div class="chart-wrapper">
-    <h2 class="chart-header">Visits by Date</h2>
-    <%= line_chart @stats.by_date, id: "by_date", xtitle: "Date", ytitle: "Number of Visits", curve: false, library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Visits By Date' } } } %>
-  </div>
+    <!-- Individual Charts -->
+    <div class="bg-white shadow-md rounded-md p-4">
+      <h2 class="text-lg font-medium text-gray-800">Visits by Date</h2>
+      <%= line_chart @stats.by_date, id: "by_date", xtitle: "Date", ytitle: "Number of Visits", curve: true, library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false} } %>
+    </div>
 
-  <div class="chart-wrapper">
-    <h2 class="chart-header">Top Pages</h2>
-    <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Top Pages' } } } %>
-  </div>
+    <div class="bg-white shadow-md rounded-md p-4">
+      <h2 class="text-lg font-medium text-gray-800">Top Pages</h2>
+      <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false} } %>
+    </div>
 
-  <div class="chart-wrapper">
-    <h2 class="chart-header">Top Referrers</h2>
-    <%= bar_chart @stats.by_referrer, id: "by_referrer", xtitle: "Number of Visits", ytitle: "Referrer", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false}, plugins: { title: { display: true, text: 'Top Referrers' } } } %>
+    <div class="bg-white shadow-md rounded-md p-4">
+      <h2 class="text-lg font-medium text-gray-800">Top Referrers</h2>
+      <%= bar_chart @stats.by_referrer, id: "by_referrer", xtitle: "Number of Visits", ytitle: "Referrer", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false} } %>
+    </div>
   </div>
 </div>
-
-<%= javascript_pack_tag 'visit', 'data-turbolinks-track': 'reload' %>
