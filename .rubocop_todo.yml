@@ -15,8 +15,8 @@ FactoryBot/ExcessiveCreateList:
 
 # Offense count: 1
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
-Metrics/AbcSize:
-  Max: 18
+# Metrics/AbcSize:
+#   Max: 18
 
 # Offense count: 1
 # Configuration parameters: CountComments, Max, CountAsOne, AllowedMethods, AllowedPatterns.
