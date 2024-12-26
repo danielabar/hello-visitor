@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: May not need this anymore since we're using VisitSearch
 class DateRange
   attr_reader :start_date, :end_date
 

@@ -13,7 +13,9 @@ RSpec.describe "Visits" do
       sign_in(user)
     end
 
+    # TODO: Also verify with url and/or referrer search params
     describe "GET /visits.json" do
+      # TODO: new default is only for the past month
       it "Returns all visits in the last year and some stats" do
         get "/visits.json"
         expect(response).to have_http_status(:success)
