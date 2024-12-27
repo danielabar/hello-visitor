@@ -6,11 +6,10 @@ class VisitsController < ApplicationController
   skip_forgery_protection
 
   # TODO: Quick filters won't work for now, only focusing on search form
-  # TODO: Implement referrer searching
   def index
     @visit_search = VisitSearch.new
     @visit_search.assign_attributes(visit_search_params) if params[:visit_search].present?
-    @stats = Stats.new(@visit_search.start_date, @visit_search.end_date, @visit_search.url)
+    @stats = Stats.new(@visit_search)
     @stats.collect
 
     respond_to do |format|

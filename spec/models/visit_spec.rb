@@ -23,8 +23,12 @@ RSpec.describe Visit do
       create_list(:visit, 2, created_at: 300.days.ago)
       create_list(:visit, 6, created_at: 290.days.ago)
 
-      result = described_class.summary
+      visit_search = VisitSearch.new(start_date: 1.year.ago.to_date, end_date: Time.zone.today)
+      result = described_class.summary(visit_search)
 
+      # BUG: Referrer could be legitimately nil but the new query is running:
+      # referrer like "%%" which doesn't match on nil
+      # FIXME: These are all nil
       expect(result[:min_visits]).to eq(2)
       expect(result[:max_visits]).to eq(20)
       expect(result[:total_visits]).to eq(28)
@@ -42,7 +46,8 @@ RSpec.describe Visit do
       create_list(:visit, 10, created_at: 6.days.ago)
       create_list(:visit, 5, created_at: 1.day.ago)
 
-      result = described_class.summary(7.days.ago, Time.zone.now)
+      visit_search = VisitSearch.new(start_date: 7.days.ago.to_date, end_date: Time.zone.today)
+      result = described_class.summary(visit_search)
 
       expect(result[:min_visits]).to eq(5)
       expect(result[:max_visits]).to eq(10)
