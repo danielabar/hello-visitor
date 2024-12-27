@@ -55,8 +55,17 @@ class Visit < ApplicationRecord
       ORDER BY count(SPLIT_PART(url, ?, 1)) desc
       LIMIT #{MAX_GROUPS}
     SQL
-    visits = Visit.find_by_sql([sql, "?", "?", visit_search.start_datetime, visit_search.end_datetime, "%#{visit_search.url}%",
-                                "%#{visit_search.referrer}%", "?", "?"])
+    visits = Visit.find_by_sql([
+                                 sql,
+                                 "?",
+                                 "?",
+                                 visit_search.start_datetime,
+                                 visit_search.end_datetime,
+                                 "%#{visit_search.url}%",
+                                 "%#{visit_search.referrer}%",
+                                 "?",
+                                 "?"
+                               ])
     visits.map { |v| [v["just_url"], v["page_count"]] }
   end
 
