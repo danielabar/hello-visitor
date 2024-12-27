@@ -13,10 +13,8 @@ RSpec.describe "Visits" do
       sign_in(user)
     end
 
-    # TODO: Also verify with url and/or referrer search params
     describe "GET /visits.json" do
-      # TODO: new default is only for the past month
-      it "Returns all visits in the last year and some stats" do
+      it "Returns all visits in the last month and some stats" do
         get "/visits.json"
         expect(response).to have_http_status(:success)
 
@@ -34,6 +32,45 @@ RSpec.describe "Visits" do
         expect(parsed_body["by_date"][1][1]).to eq(2)
 
         expect(parsed_body["by_referrer"]).to eq([])
+      end
+
+      it "Returns visits filtered by url" do
+        get "/visits.json", params: { visit_search: { url: "page1" } }
+        expect(response).to have_http_status(:success)
+
+        parsed_body = response.parsed_body
+        expect(parsed_body["summary"]["total_visits"]).to eq(2)
+
+        expect(parsed_body["by_page"].size).to eq(1)
+        expect(parsed_body["by_page"][0][0]).to eq("https://example.com/page1")
+        expect(parsed_body["by_page"][0][1]).to eq(2)
+
+        expect(parsed_body["by_date"].size).to eq(2)
+        expect(parsed_body["by_date"][0][1]).to eq(1) # visit1
+        expect(parsed_body["by_date"][1][1]).to eq(1) # visit2
+
+        expect(parsed_body["by_referrer"]).to eq([])
+      end
+
+      it "Returns visits filtered by referrer" do
+        create(:visit, :google, url: "https://example.com/interesting")
+
+        get "/visits.json", params: { visit_search: { referrer: "google" } }
+        expect(response).to have_http_status(:success)
+
+        parsed_body = response.parsed_body
+
+        expect(parsed_body["summary"]).to eq({
+                                               "avg_daily_visits" => 1,
+                                               "total_visits" => 1,
+                                               "median_daily_visits" => 1,
+                                               "min_visits" => 1,
+                                               "max_visits" => 1
+                                             })
+
+        expect(parsed_body["by_page"]).to eq([["https://example.com/interesting", 1]])
+        expect(parsed_body["by_date"]).to eq([[Time.zone.today.to_s, 1]])
+        expect(parsed_body["by_referrer"]).to eq([["https://www.google.com", 1]])
       end
     end
 
