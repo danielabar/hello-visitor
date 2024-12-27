@@ -31,7 +31,7 @@ class Visit < ApplicationRecord
         AND COALESCE(referrer, '') ILIKE ?
       GROUP BY created_at::timestamp::date) visits_by_day
     SQL
-    visits = Visit.find_by_sql([sql, visit_search.start_date, visit_search.end_date, "%#{visit_search.url}%",
+    visits = Visit.find_by_sql([sql, visit_search.start_datetime, visit_search.end_datetime, "%#{visit_search.url}%",
                                 "%#{visit_search.referrer}%"])
     {
       avg_daily_visits: visits[0]["avg_daily_visits"],
@@ -55,7 +55,7 @@ class Visit < ApplicationRecord
       ORDER BY count(SPLIT_PART(url, ?, 1)) desc
       LIMIT #{MAX_GROUPS}
     SQL
-    visits = Visit.find_by_sql([sql, "?", "?", visit_search.start_date, visit_search.end_date, "%#{visit_search.url}%",
+    visits = Visit.find_by_sql([sql, "?", "?", visit_search.start_datetime, visit_search.end_datetime, "%#{visit_search.url}%",
                                 "%#{visit_search.referrer}%", "?", "?"])
     visits.map { |v| [v["just_url"], v["page_count"]] }
   end
@@ -74,7 +74,7 @@ class Visit < ApplicationRecord
       order by count(trim(trailing '/' from referrer)) desc
       LIMIT #{MAX_GROUPS}
     SQL
-    visits = Visit.find_by_sql([sql, visit_search.start_date, visit_search.end_date, "%#{visit_search.url}%",
+    visits = Visit.find_by_sql([sql, visit_search.start_datetime, visit_search.end_datetime, "%#{visit_search.url}%",
                                 "%#{visit_search.referrer}%"])
     visits.map { |v| [v["referrer"], v["visit_count"]] }
   end
@@ -91,7 +91,7 @@ class Visit < ApplicationRecord
       GROUP BY created_at::timestamp::date
       ORDER BY created_at::timestamp::date
     SQL
-    visits = Visit.find_by_sql([sql, visit_search.start_date, visit_search.end_date, "%#{visit_search.url}%",
+    visits = Visit.find_by_sql([sql, visit_search.start_datetime, visit_search.end_datetime, "%#{visit_search.url}%",
                                 "%#{visit_search.referrer}%"])
     visits.map { |v| [v["visit_date"].strftime("%Y-%m-%d"), v["visit_count"]] }
   end
