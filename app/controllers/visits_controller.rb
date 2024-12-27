@@ -5,7 +5,6 @@ class VisitsController < ApplicationController
   before_action :log_request, only: %i[create]
   skip_forgery_protection
 
-  # TODO: Quick filters won't work for now, only focusing on search form
   def index
     @visit_search = VisitSearch.new
     @visit_search.assign_attributes(visit_search_params) if params[:visit_search].present?
