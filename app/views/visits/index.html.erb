@@ -1,23 +1,31 @@
 <div class="space-y-8">
-  <!-- Filter and Search Section -->
+   <!-- Filters -->
   <div class="bg-white shadow-md rounded-md p-4">
-    <h2 class="text-lg font-medium text-gray-800">Filters & Search</h2>
-    <div class="flex flex-col space-y-4 mt-3">
-      <!-- Filter Options -->
-      <div class="flex space-x-4">
-        <%= link_to 'Last year', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.year), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days == 365} uppercase tracking-wider font-semibold text-sm" %>
-        <%= link_to 'Last month', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.month), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days.between?(28, 31)} uppercase tracking-wider font-semibold text-sm" %>
-        <%= link_to 'Last week', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 1.week), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days == 7} uppercase tracking-wider font-semibold text-sm" %>
-        <%= link_to 'Last 2 days', visits_path(range_end: Time.zone.now, range_start: Time.zone.now - 2.days), class: "px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 #{'bg-indigo-100 text-indigo-600' if @date_range.num_days == 2} uppercase tracking-wider font-semibold text-sm" %>
-        <%= link_to 'Reset Filters', visits_path, class: "px-4 py-2 rounded-md text-red-600 hover:text-red-800 hover:underline uppercase tracking-wider font-semibold text-sm" %>
+    <h2 class="text-lg font-medium text-gray-800">Filter</h2>
+    <%= form_with model: @visit_search, url: visits_path, method: :get, local: true, class: "space-y-4 mt-3" do |form| %>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div>
+          <%= form.label :url, "Content", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.text_field :url, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+        <div>
+          <%= form.label :referrer, "Referrer", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.text_field :referrer, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+        <div>
+          <%= form.label :start_date, "Start date", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.date_field :start_date, placeholder: "Start date", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+        <div>
+          <%= form.label :end_date, "End date", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.date_field :end_date, placeholder: "End date", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
       </div>
-
-      <!-- Search Form -->
-      <%= form_with model: @visit_search, url: visits_path, method: :get, local: true, class: "flex items-center space-x-2" do |form| %>
-        <%= form.text_field :url, placeholder: "Filter by content", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
-        <%= form.submit "Search", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700" %>
-      <% end %>
-    </div>
+      <div class="flex justify-end space-x-4 mt-4">
+        <%= form.submit "Search", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 uppercase tracking-wider" %>
+        <%= link_to 'Reset', visits_path, class: "px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hover:text-gray-800 uppercase tracking-wider" %>
+      </div>
+    <% end %>
   </div>
 
   <!-- Charts -->
@@ -25,7 +33,7 @@
     <!-- Summary Stats -->
     <div class="bg-white shadow-md rounded-md p-4">
       <h2 class="text-lg font-medium text-gray-800">Summary</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3">
         <% @stats.summary.each do |label, value| %>
           <div class="p-3 bg-gray-100 rounded-md shadow-inner text-center">
             <span class="block text-sm text-gray-500"><%= label.to_s.humanize %></span>

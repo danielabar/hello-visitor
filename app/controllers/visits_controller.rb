@@ -6,12 +6,10 @@ class VisitsController < ApplicationController
   skip_forgery_protection
 
   def index
-    @date_range = DateRange.new(params[:range_start], params[:range_end])
-    url_search = params.dig(:visit_search, :url)
-    @stats = Stats.new(@date_range.start_date, @date_range.end_date, url_search)
+    @visit_search = VisitSearch.new
+    @visit_search.assign_attributes(visit_search_params) if params[:visit_search].present?
+    @stats = Stats.new(@visit_search)
     @stats.collect
-
-    @visit_search = VisitSearch.new(url: url_search)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,6 +40,10 @@ class VisitsController < ApplicationController
 
   def visit_params
     params.require(:visit).permit(:guest_timezone_offset, :user_agent, :url, :referrer)
+  end
+
+  def visit_search_params
+    params.require(:visit_search).permit(:url, :referrer, :start_date, :end_date)
   end
 
   # https://stackoverflow.com/questions/3985989/using-sanitize-within-a-rails-controller

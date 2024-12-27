@@ -23,7 +23,8 @@ RSpec.describe Visit do
       create_list(:visit, 2, created_at: 300.days.ago)
       create_list(:visit, 6, created_at: 290.days.ago)
 
-      result = described_class.summary
+      visit_search = VisitSearch.new(start_date: 1.year.ago.to_date)
+      result = described_class.summary(visit_search)
 
       expect(result[:min_visits]).to eq(2)
       expect(result[:max_visits]).to eq(20)
@@ -42,7 +43,8 @@ RSpec.describe Visit do
       create_list(:visit, 10, created_at: 6.days.ago)
       create_list(:visit, 5, created_at: 1.day.ago)
 
-      result = described_class.summary(7.days.ago, Time.zone.now)
+      visit_search = VisitSearch.new(start_date: 7.days.ago.to_date)
+      result = described_class.summary(visit_search)
 
       expect(result[:min_visits]).to eq(5)
       expect(result[:max_visits]).to eq(10)
@@ -58,7 +60,7 @@ RSpec.describe Visit do
       create(:visit, url: "https://example.com/page1")
       create(:visit, url: "https://example.com/page2")
 
-      result = described_class.by_page
+      result = described_class.by_page(VisitSearch.new)
 
       expect(result.length).to eq(2)
 
@@ -73,7 +75,8 @@ RSpec.describe Visit do
       v = create(:visit)
       create(:visit, created_at: 13.months.ago)
 
-      result = described_class.by_page
+      visit_search = VisitSearch.new(start_date: 1.year.ago.to_date)
+      result = described_class.by_page(visit_search)
 
       expect(result.length).to eq(1)
       expect(result[0][0]).to eq(v.url)
@@ -82,7 +85,7 @@ RSpec.describe Visit do
 
     it "Limits to 15 groups" do
       create_list(:visit, 20)
-      result = described_class.by_page
+      result = described_class.by_page(VisitSearch.new)
       expect(result.length).to eq(15)
     end
   end
@@ -93,7 +96,7 @@ RSpec.describe Visit do
       create(:visit, url: "https://example.com/page2", referrer: "https://www.google.com")
       create(:visit, url: "https://example.com/page3", referrer: "https://www.linkedin.com")
 
-      result = described_class.by_referrer
+      result = described_class.by_referrer(VisitSearch.new)
 
       expect(result.length).to eq(2)
 
@@ -106,13 +109,13 @@ RSpec.describe Visit do
 
     it "Does not count visits with no referrer" do
       create_list(:visit, 10)
-      result = described_class.by_referrer
+      result = described_class.by_referrer(VisitSearch.new)
       expect(result).to eq([])
     end
 
     it "Limits to 15 groups" do
       create_list(:visit, 20, :random_referrer)
-      result = described_class.by_referrer
+      result = described_class.by_referrer(VisitSearch.new)
       expect(result.length).to eq(15)
     end
   end
@@ -123,7 +126,7 @@ RSpec.describe Visit do
       visit2 = create(:visit, url: "https://example.com/page1", created_at: 1.day.ago)
       create(:visit, url: "https://example.com/page2", created_at: 1.day.ago)
 
-      result = described_class.by_date
+      result = described_class.by_date(VisitSearch.new)
 
       expect(result.length).to eq(2)
 

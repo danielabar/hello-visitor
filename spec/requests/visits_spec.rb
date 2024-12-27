@@ -14,24 +14,75 @@ RSpec.describe "Visits" do
     end
 
     describe "GET /visits.json" do
-      it "Returns all visits in the last year and some stats" do
+      it "Returns all visits in the last month and some stats" do
         get "/visits.json"
         expect(response).to have_http_status(:success)
 
         parsed_body = response.parsed_body
-        expect(parsed_body["summary"]["total_visits"]).to eq(3)
 
-        expect(parsed_body["by_page"][0][0]).to eq("https://example.com/page1")
-        expect(parsed_body["by_page"][0][1]).to eq(2)
-        expect(parsed_body["by_page"][1][0]).to eq("https://example.com/page2")
-        expect(parsed_body["by_page"][1][1]).to eq(1)
+        expect(parsed_body["summary"]).to eq({
+                                               "avg_daily_visits" => 2,
+                                               "total_visits" => 3,
+                                               "median_daily_visits" => 2,
+                                               "min_visits" => 1,
+                                               "max_visits" => 2
+                                             })
 
-        expect(parsed_body["by_date"][0][0]).to eq(visit1.created_at.strftime("%Y-%m-%d"))
-        expect(parsed_body["by_date"][0][1]).to eq(1)
-        expect(parsed_body["by_date"][1][0]).to eq(visit2.created_at.strftime("%Y-%m-%d"))
-        expect(parsed_body["by_date"][1][1]).to eq(2)
+        expect(parsed_body["by_page"]).to contain_exactly(
+          ["https://example.com/page1", 2],
+          ["https://example.com/page2", 1]
+        )
+
+        expect(parsed_body["by_date"]).to eq([
+                                               [5.days.ago.strftime("%Y-%m-%d"), 1],
+                                               [1.day.ago.strftime("%Y-%m-%d"), 2]
+                                             ])
 
         expect(parsed_body["by_referrer"]).to eq([])
+      end
+
+      it "Returns visits filtered by url" do
+        get "/visits.json", params: { visit_search: { url: "page1" } }
+        expect(response).to have_http_status(:success)
+
+        parsed_body = response.parsed_body
+        expect(parsed_body["summary"]).to eq({
+                                               "avg_daily_visits" => 1,
+                                               "total_visits" => 2,
+                                               "median_daily_visits" => 1,
+                                               "min_visits" => 1,
+                                               "max_visits" => 1
+                                             })
+
+        expect(parsed_body["by_page"]).to eq([["https://example.com/page1", 2]])
+
+        expect(parsed_body["by_date"]).to eq([
+                                               [5.days.ago.strftime("%Y-%m-%d"), 1],
+                                               [1.day.ago.strftime("%Y-%m-%d"), 1]
+                                             ])
+
+        expect(parsed_body["by_referrer"]).to eq([])
+      end
+
+      it "Returns visits filtered by referrer" do
+        create(:visit, :google, url: "https://example.com/interesting")
+
+        get "/visits.json", params: { visit_search: { referrer: "google" } }
+        expect(response).to have_http_status(:success)
+
+        parsed_body = response.parsed_body
+
+        expect(parsed_body["summary"]).to eq({
+                                               "avg_daily_visits" => 1,
+                                               "total_visits" => 1,
+                                               "median_daily_visits" => 1,
+                                               "min_visits" => 1,
+                                               "max_visits" => 1
+                                             })
+
+        expect(parsed_body["by_page"]).to eq([["https://example.com/interesting", 1]])
+        expect(parsed_body["by_date"]).to eq([[Time.zone.today.to_s, 1]])
+        expect(parsed_body["by_referrer"]).to eq([["https://www.google.com", 1]])
       end
     end
 
@@ -41,11 +92,15 @@ RSpec.describe "Visits" do
         expect(response).to have_http_status(:success)
 
         parsed_body = response.parsed_body
-        expect(parsed_body["visits"]["id"]).to eq(visit1.id)
-        expect(parsed_body["visits"]["guest_timezone_offset"]).to eq(visit1.guest_timezone_offset)
-        expect(parsed_body["visits"]["user_agent"]).to eq(visit1.user_agent)
-        expect(parsed_body["visits"]["remote_ip"]).to eq(visit1.remote_ip)
-        expect(parsed_body["visits"]["referrer"]).to eq(visit1.referrer)
+
+        expect(parsed_body["visits"]).to include(
+          "id" => visit1.id,
+          "guest_timezone_offset" => visit1.guest_timezone_offset,
+          "user_agent" => visit1.user_agent,
+          "url" => visit1.url,
+          "remote_ip" => visit1.remote_ip,
+          "referrer" => visit1.referrer
+        )
       end
     end
   end
@@ -89,6 +144,11 @@ RSpec.describe "Visits" do
         # 3 is from the initial setup
         expect(response).to have_http_status(:success)
         expect(Visit.count).to eq(3)
+      end
+
+      it "Does not allow viewing visits" do
+        get "/visits.json"
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
