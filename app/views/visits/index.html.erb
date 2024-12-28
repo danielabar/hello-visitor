@@ -112,5 +112,30 @@
           }
         } %>
     </div>
+
+    <%# Bottom Pages %>
+    <div class="bg-white shadow-md rounded-md p-4">
+      <h2 class="text-lg font-medium text-gray-800">Bottom Pages</h2>
+      <%= bar_chart @stats.by_page_bottom,
+        id: "by_page_bottom",
+        height: "350px",
+        xtitle: "Number of Visits",
+        ytitle: "URL",
+        library: {
+          animation: {
+            duration: 1500,
+            easing: 'easeInQuad',
+            delay: 0,
+            loop: false
+          },
+          scales: {
+            y: {
+              ticks: {
+                autoSkip: false
+              }
+            }
+          }
+        } %>
+    </div>
   </div>
 </div>

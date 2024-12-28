@@ -15,26 +15,20 @@ TIMEZONE_OFFSETS = [
   300
 ].freeze
 
-# PAGES = [
-#   "blog/doc1",
-#   "blog/doc2",
-#   "blog/doc3",
-#   "blog/doc4",
-#   "blog/doc5"
-# ].freeze
 PAGES = (1..100).map { |i| "blog/doc#{i}" }.freeze
 
 REFERRERS = [
   "https://www.google.com",
   "https://www.twitter.com",
   "https://www.facebook.com",
-  "https://www.linkedin.com"
+  "https://www.linkedin.com",
+  nil
 ].freeze
 
 def assign_url
   favor_first_docs = Faker::Boolean.boolean(true_ratio: 0.7)
   if favor_first_docs
-    "https://example.com/#{PAGES[Faker::Number.between(from: 0, to: 1)]}"
+    "https://example.com/#{PAGES[Faker::Number.between(from: 0, to: 3)]}"
   else
     "https://example.com/#{PAGES[Faker::Number.between(from: 0, to: PAGES.length - 1)]}"
   end

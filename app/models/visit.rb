@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Visit < ApplicationRecord
-  MAX_GROUPS = 15
+  MAX_GROUPS = 10
 
   validates :guest_timezone_offset, presence: true
   validates :user_agent, presence: true
@@ -53,6 +53,33 @@ class Visit < ApplicationRecord
         AND COALESCE(referrer, '') ILIKE ?
       GROUP BY SPLIT_PART(url, ?, 1)
       ORDER BY count(SPLIT_PART(url, ?, 1)) desc
+      LIMIT #{MAX_GROUPS}
+    SQL
+    visits = Visit.find_by_sql([
+                                 sql,
+                                 "?",
+                                 "?",
+                                 visit_search.start_datetime,
+                                 visit_search.end_datetime,
+                                 "%#{visit_search.url}%",
+                                 "%#{visit_search.referrer}%",
+                                 "?",
+                                 "?"
+                               ])
+    visits.map { |v| [v["just_url"], v["page_count"]] }
+  end
+
+  def self.by_page_bottom(visit_search)
+    sql = <<~SQL.squish
+      SELECT SPLIT_PART(url, ?, 1) as just_url
+        , count(SPLIT_PART(url, ?, 1)) as page_count
+      FROM visits
+      WHERE created_at >= ?
+        AND created_at <= ?
+        AND url like ?
+        AND COALESCE(referrer, '') ILIKE ?
+      GROUP BY SPLIT_PART(url, ?, 1)
+      ORDER BY count(SPLIT_PART(url, ?, 1)) ASC
       LIMIT #{MAX_GROUPS}
     SQL
     visits = Visit.find_by_sql([
