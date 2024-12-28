@@ -30,7 +30,8 @@
 
   <!-- Charts -->
   <div class="space-y-6">
-    <!-- Summary Stats -->
+
+    <%# Summary Stats %>
     <div class="bg-white shadow-md rounded-md p-4">
       <h2 class="text-lg font-medium text-gray-800">Summary</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3">
@@ -43,20 +44,73 @@
       </div>
     </div>
 
-    <!-- Individual Charts -->
+    <%# By Date %>
     <div class="bg-white shadow-md rounded-md p-4">
       <h2 class="text-lg font-medium text-gray-800">Visits by Date</h2>
-      <%= line_chart @stats.by_date, id: "by_date", xtitle: "Date", ytitle: "Number of Visits", curve: true, library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false} } %>
+      <%= line_chart @stats.by_date,
+        id: "by_date",
+        height: "350px",
+        xtitle: "Date",
+        ytitle: "Number of Visits",
+        curve: true,
+        library: {
+          animation: {
+            duration: 1500,
+            easing: 'easeInQuad',
+            delay: 0,
+            loop: false
+          }
+        } %>
     </div>
 
+    <%# Pages %>
     <div class="bg-white shadow-md rounded-md p-4">
       <h2 class="text-lg font-medium text-gray-800">Top Pages</h2>
-      <%= bar_chart @stats.by_page, id: "by_page", xtitle: "Number of Visits", ytitle: "URL", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false} } %>
+      <%= bar_chart @stats.by_page,
+        id: "by_page",
+        height: "350px",
+        xtitle: "Number of Visits",
+        ytitle: "URL",
+        library: {
+          animation: {
+            duration: 1500,
+            easing: 'easeInQuad',
+            delay: 0,
+            loop: false
+          },
+          scales: {
+            y: {
+              ticks: {
+                autoSkip: false
+              }
+            }
+          }
+        } %>
     </div>
 
+    <%# Referrers %>
     <div class="bg-white shadow-md rounded-md p-4">
       <h2 class="text-lg font-medium text-gray-800">Top Referrers</h2>
-      <%= bar_chart @stats.by_referrer, id: "by_referrer", xtitle: "Number of Visits", ytitle: "Referrer", library: { animation: { duration: 1500, easing: 'easeInQuad', delay: 0, loop: false} } %>
+      <%= bar_chart @stats.by_referrer,
+        id: "by_referrer",
+        height: "350px",
+        xtitle: "Number of Visits",
+        ytitle: "Referrer",
+        library: {
+          animation: {
+            duration: 1500,
+            easing: 'easeInQuad',
+            delay: 0,
+            loop: false
+          },
+          scales: {
+            y: {
+              ticks: {
+                autoSkip: false
+              }
+            }
+          }
+        } %>
     </div>
   </div>
 </div>
