@@ -33,6 +33,11 @@ RSpec.describe "Visits" do
           ["https://example.com/page2", 1]
         )
 
+        expect(parsed_body["by_page_bottom"]).to contain_exactly(
+          ["https://example.com/page1", 2],
+          ["https://example.com/page2", 1]
+        )
+
         expect(parsed_body["by_date"]).to eq([
                                                [5.days.ago.strftime("%Y-%m-%d"), 1],
                                                [1.day.ago.strftime("%Y-%m-%d"), 2]

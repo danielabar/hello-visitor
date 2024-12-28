@@ -48,7 +48,7 @@ Rails/I18nLocaleTexts:
 
 # Ease up a bit on the default restrictions
 RSpec/ExampleLength:
-  Max: 20
+  Max: 30
 
 RSpec/MultipleExpectations:
   Max: 10

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Visit < ApplicationRecord
   validates :guest_timezone_offset, presence: true
   validates :user_agent, presence: true

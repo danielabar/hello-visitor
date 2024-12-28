@@ -15,6 +15,10 @@ class Stats
     @by_referrer = Visit.by_referrer(@visit_search)
     @by_date = Visit.by_date(@visit_search)
     @raw_data = { summary: @summary,
-                  by_page: @by_page, by_date: @by_date, by_referrer: @by_referrer, visits: @visits }
+                  by_page: @by_page,
+                  by_page_bottom: @by_page_bottom,
+                  by_date: @by_date,
+                  by_referrer: @by_referrer,
+                  visits: @visits }
   end
 end
