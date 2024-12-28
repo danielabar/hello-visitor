@@ -49,7 +49,7 @@
       <h2 class="text-lg font-medium text-gray-800">Visits by Date</h2>
       <%= line_chart @stats.by_date,
         id: "by_date",
-        height: "350px",
+        height: "325px",
         xtitle: "Date",
         ytitle: "Number of Visits",
         curve: true,
@@ -68,7 +68,7 @@
       <h2 class="text-lg font-medium text-gray-800">Top Pages</h2>
       <%= bar_chart @stats.by_page,
         id: "by_page",
-        height: "350px",
+        height: "325px",
         xtitle: "Number of Visits",
         ytitle: "URL",
         library: {
@@ -93,7 +93,7 @@
       <h2 class="text-lg font-medium text-gray-800">Top Referrers</h2>
       <%= bar_chart @stats.by_referrer,
         id: "by_referrer",
-        height: "350px",
+        height: "325px",
         xtitle: "Number of Visits",
         ytitle: "Referrer",
         library: {
@@ -118,7 +118,7 @@
       <h2 class="text-lg font-medium text-gray-800">Bottom Pages</h2>
       <%= bar_chart @stats.by_page_bottom,
         id: "by_page_bottom",
-        height: "350px",
+        height: "250px",
         xtitle: "Number of Visits",
         ytitle: "URL",
         library: {

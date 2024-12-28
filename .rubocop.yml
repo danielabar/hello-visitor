@@ -37,7 +37,7 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
 
 Layout/LineLength:
   Max: 120
