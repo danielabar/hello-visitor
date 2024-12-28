@@ -1,0 +1,16 @@
+<%# locals: data, id, height, xtitle, ytitle %>
+
+<%= line_chart data,
+  id: id,
+  height: height,
+  xtitle: xtitle,
+  ytitle: ytitle,
+  curve: true,
+  library: {
+    animation: {
+      duration: 1500,
+      easing: 'easeInQuad',
+      delay: 0,
+      loop: false
+    }
+  } %>

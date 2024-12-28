@@ -37,7 +37,7 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
 
 Layout/LineLength:
   Max: 120
@@ -48,7 +48,7 @@ Rails/I18nLocaleTexts:
 
 # Ease up a bit on the default restrictions
 RSpec/ExampleLength:
-  Max: 20
+  Max: 30
 
 RSpec/MultipleExpectations:
   Max: 10

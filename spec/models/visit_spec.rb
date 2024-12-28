@@ -83,10 +83,10 @@ RSpec.describe Visit do
       expect(result[0][1]).to eq(1)
     end
 
-    it "Limits to 15 groups" do
+    it "Limits to 10 groups" do
       create_list(:visit, 20)
       result = described_class.by_page(VisitSearch.new)
-      expect(result.length).to eq(15)
+      expect(result.length).to eq(10)
     end
   end
 
@@ -113,10 +113,10 @@ RSpec.describe Visit do
       expect(result).to eq([])
     end
 
-    it "Limits to 15 groups" do
+    it "Limits to 10 groups" do
       create_list(:visit, 20, :random_referrer)
       result = described_class.by_referrer(VisitSearch.new)
-      expect(result.length).to eq(15)
+      expect(result.length).to eq(10)
     end
   end
 
