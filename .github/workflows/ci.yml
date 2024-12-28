@@ -52,7 +52,6 @@ jobs:
 
       - name: Run RuboCop
         run: bin/rubocop -f github
-        # run: bundle exec rubocop
 
   test:
     runs-on: ubuntu-latest
@@ -88,6 +87,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Precompile assets
+        run: bin/rails assets:precompile
 
       - name: Run tests
         env:
