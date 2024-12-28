@@ -15,13 +15,14 @@ TIMEZONE_OFFSETS = [
   300
 ].freeze
 
-PAGES = [
-  "blog/doc1",
-  "blog/doc2",
-  "blog/doc3",
-  "blog/doc4",
-  "blog/doc5"
-].freeze
+# PAGES = [
+#   "blog/doc1",
+#   "blog/doc2",
+#   "blog/doc3",
+#   "blog/doc4",
+#   "blog/doc5"
+# ].freeze
+PAGES = (1..100).map { |i| "blog/doc#{i}" }.freeze
 
 REFERRERS = [
   "https://www.google.com",
