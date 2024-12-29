@@ -10,10 +10,11 @@ Feature: Visit Analysis
       | https://example.com/page3  | https://linkedin.com     | 360.days.ago  |
     And I am logged in as any user
 
-  Scenario: Default visits dashboard
+  Scenario: Default visits dashboard for past month
     Then the Summary section shows stats:
       | avg_daily_visits | total_visits | median_daily_visits | min_visits | max_visits |
       | 1                | 3            | 1                   | 1          | 1          |
+    And charts are displayed
 
   Scenario: Search by content
     When I search by content "page1"
@@ -28,6 +29,8 @@ Feature: Visit Analysis
     And the URL should contain "visit_search%5Bend_date%5D="
 
   Scenario: Search by date range
-    When I search by date range from "2024-12-20" to "2024-12-21"
-    Then the URL should contain "visit_search%5Bstart_date%5D=2024-12-20"
-    And the URL should contain "visit_search%5Bend_date%5D=2024-12-21"
+    When I search for visits in the past year
+    Then the Summary section shows stats:
+      | avg_daily_visits | total_visits | median_daily_visits | min_visits | max_visits |
+      | 1                | 4            | 1                   | 1          | 1          |
+    And charts are displayed

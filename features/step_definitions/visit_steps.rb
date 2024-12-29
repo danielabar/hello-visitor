@@ -26,10 +26,32 @@ When("I search by referrer {string}") do |referrer|
   click_on "Search"
 end
 
+When("I search for visits in the past year") do
+  fill_in "Start date", with: 1.year.ago.to_date.to_s
+  fill_in "End date", with: Time.zone.today.to_s
+  click_on "Search"
+end
+
+# Unused but could be useful
 When("I search by date range from {string} to {string}") do |start_date, end_date|
   fill_in "Start date", with: start_date
   fill_in "End date", with: end_date
   click_on "Search"
+end
+
+And("charts are displayed") do
+  within("#by_date") do
+    expect(page).to have_css("canvas")
+  end
+  within("#by_page") do
+    expect(page).to have_css("canvas")
+  end
+  within("#by_referrer") do
+    expect(page).to have_css("canvas")
+  end
+  within("#by_page_bottom") do
+    expect(page).to have_css("canvas")
+  end
 end
 
 Then("the URL should contain {string}") do |expected_part|
