@@ -2,6 +2,7 @@
 
 Given("the following visits exist:") do |table|
   table.hashes.each do |visit|
+    visit["created_at"] = parse_dynamic_date(visit["created_at"]) if visit["created_at"].present?
     FactoryBot.create(:visit, visit)
   end
 end
@@ -24,4 +25,17 @@ end
 
 Then("the URL should contain {string}") do |expected_part|
   expect(page.current_url).to include(expected_part)
+end
+
+def parse_dynamic_date(value)
+  case value
+  when /\A(\d+)\.days?\.ago\z/
+    Regexp.last_match(1).to_i.days.ago
+  when /\A(\d+)\.weeks?\.ago\z/
+    Regexp.last_match(1).to_i.weeks.ago
+  when /\A(\d+)\.months?\.ago\z/
+    Regexp.last_match(1).to_i.months.ago
+  else
+    raise ArgumentError, "Unsupported dynamic date format: #{value}"
+  end
 end

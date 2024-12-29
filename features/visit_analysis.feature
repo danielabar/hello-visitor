@@ -2,12 +2,13 @@
 Feature: Visit Analysis
 
   Background:
-    Given I am logged in as any user
-    And the following visits exist:
-      | url                        | referrer               | created_at       |
-      | https://example.com/page1  | https://www.google.com | 2024-12-20 10:00 |
-      | https://example.com/page2  | https://t.co           | 2024-12-21 12:00 |
-      | https://example.com/page3  | https://random.com     | 2024-12-22 14:00 |
+    Given the following visits exist:
+      | url                        | referrer                 | created_at    |
+      | https://example.com/page1  | https://www.google.com   | 5.days.ago    |
+      | https://example.com/page2  | https://t.co             | 3.days.ago    |
+      | https://example.com/page3  | https://random.com       | 1.day.ago     |
+      | https://example.com/page3  | https://linkedin.com     | 360.days.ago  |
+    And I am logged in as any user
 
   Scenario: Search by content
     When I search by content "page1"
