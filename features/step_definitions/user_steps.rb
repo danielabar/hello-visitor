@@ -9,10 +9,13 @@ Given("I am logged in as {string} with password {string}") do |email, password|
   fill_in "Email", with: email
   fill_in "Password", with: password
   click_on "Log in"
+  # debugger
 end
 
 When("I visit the login page") do
   visit new_user_session_path
+  # debugger
+  # page.driver.debug(binding)
 end
 
 When("I visit the visits dashboard page") do

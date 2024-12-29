@@ -1,3 +1,4 @@
+@javascript
 Feature: User Login and Dashboard Access
   As a user
   I want to log in and view the visits dashboard
@@ -11,7 +12,8 @@ Feature: User Login and Dashboard Access
     When I fill in "Email" with "user@example.com"
     And I fill in "Password" with "password"
     And I click "Log in"
-    Then I should see "Visits by Date"
+    Then I should see "Signed in successfully"
+    And I should see "Visits by Date"
     And I should see "Filter"
 
   Scenario: Redirect to login when unauthenticated

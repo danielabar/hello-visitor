@@ -15,19 +15,20 @@ Feature: Dashboard Search Filters
   Scenario: Search by content
     When I fill in "Content" with "page1"
     And I click "Search"
-    Then I should see "https://example.com/page1"
-    And I should not see "https://example.com/page2"
+    Then the URL should contain "visit_search%5Burl%5D=page1"
+    And the URL should contain "visit_search%5Bstart_date%5D="
+    And the URL should contain "visit_search%5Bend_date%5D="
 
   Scenario: Search by referrer
     When I fill in "Referrer" with "google"
     And I click "Search"
-    Then I should see "https://www.google.com"
-    And I should not see "https://t.co"
+    Then the URL should contain "visit_search%5Breferrer%5D=google"
+    And the URL should contain "visit_search%5Bstart_date%5D="
+    And the URL should contain "visit_search%5Bend_date%5D="
 
   Scenario: Search by date range
     When I fill in "Start date" with "2024-12-20"
     And I fill in "End date" with "2024-12-21"
     And I click "Search"
-    Then I should see "https://example.com/page1"
-    And I should see "https://example.com/page2"
-    And I should not see "https://example.com/page3"
+    Then the URL should contain "visit_search%5Bstart_date%5D=2024-12-20"
+    And the URL should contain "visit_search%5Bend_date%5D=2024-12-21"

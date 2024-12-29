@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
-# Is this needed?
 require "capybara/rails"
 require "capybara/cuprite"
 require "capybara/rspec"
 require "capybara-screenshot/rspec"
 
-# Capybara configuration
-Capybara.default_driver = :rack_test # For tests that don't require JavaScript
+# Capybara.default_driver = :rack_test # For tests that don't require JavaScript
+Capybara.default_driver = :cuprite
 Capybara.javascript_driver = :cuprite # For tests that need JavaScript
 
-# TODO: Real browser launching not working
-# Cuprite-specific configuration
 Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
     app,

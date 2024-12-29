@@ -1,7 +1,11 @@
+@javascript
 Feature: About Page
   As any user
   I want to view the About page
   So that I can learn more about the application.
+
+  Background:
+    Given a user exists with email "user@example.com" and password "password"
 
   Scenario: Visit the About page as an unauthenticated user
     Given I visit the about page
