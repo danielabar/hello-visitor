@@ -73,7 +73,7 @@ group :test do
   gem "capybara"
   gem "capybara-screenshot"
   gem "cuprite"
-  gem "cucumber-rails"
+  gem "cucumber-rails", require: false
   gem "database_cleaner-active_record"
 end
 gem "interactor"
