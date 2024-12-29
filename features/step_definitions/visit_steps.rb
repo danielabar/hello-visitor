@@ -7,6 +7,15 @@ Given("the following visits exist:") do |table|
   end
 end
 
+Then("the Summary section shows stats:") do |table|
+  stats = table.hashes[0]
+
+  stats.each do |label, expected_value|
+    element = find("[data-test-id='stat-#{label.parameterize}']")
+    expect(element.text.strip).to eq(expected_value)
+  end
+end
+
 When("I search by content {string}") do |content|
   fill_in "Content", with: content
   click_on "Search"

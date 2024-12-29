@@ -10,6 +10,11 @@ Feature: Visit Analysis
       | https://example.com/page3  | https://linkedin.com     | 360.days.ago  |
     And I am logged in as any user
 
+  Scenario: Default visits dashboard
+    Then the Summary section shows stats:
+      | avg_daily_visits | total_visits | median_daily_visits | min_visits | max_visits |
+      | 1                | 3            | 1                   | 1          | 1          |
+
   Scenario: Search by content
     When I search by content "page1"
     Then the URL should contain "visit_search%5Burl%5D=page1"
