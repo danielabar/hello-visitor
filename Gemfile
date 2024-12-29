@@ -71,10 +71,10 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem "capybara-screenshot"
   gem "cuprite"
   gem "cucumber-rails"
-  # TODO: #30 is this needed? Or if yes, is it actually database_cleaner
-  # gem "database_cleaner-active_record"
+  gem "database_cleaner-active_record"
 end
 gem "interactor"
 
