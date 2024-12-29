@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Customizations to `features/support/env.rb` should go in this file
+
 require "capybara/rails"
 require "capybara/cuprite"
 require "capybara/rspec"

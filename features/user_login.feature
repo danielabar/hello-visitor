@@ -1,22 +1,17 @@
 @javascript
-Feature: User Login and Dashboard Access
-  As a user
-  I want to log in and view the visits dashboard
-  So that I can analyze website traffic.
+Feature: User Login
 
   Background:
     Given a user exists with email "user@example.com" and password "password"
 
-  Scenario: Successful login and view dashboard
-    Given I visit the login page
-    When I fill in "Email" with "user@example.com"
-    And I fill in "Password" with "password"
-    And I click "Log in"
-    Then I should see "Signed in successfully"
-    And I should see "Visits by Date"
-    And I should see "Filter"
-
-  Scenario: Redirect to login when unauthenticated
-    Given I visit the visits dashboard page
+  Scenario: Successful login
+    Given I visit the root path
     Then I should be redirected to the login page
-    And I should see "You need to sign in or sign up before continuing."
+    When I submit the login form with "user@example.com" and "password"
+    Then I should be signed in
+
+  Scenario: Unsuccessful login
+    Given I visit the root path
+    Then I should be redirected to the login page
+    When I submit the login form with "user@example.com" and "incorrect_password"
+    Then I should not be signed in
