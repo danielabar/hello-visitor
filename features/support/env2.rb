@@ -23,6 +23,7 @@ Capybara.register_driver(:cuprite) do |app|
 end
 
 # TODO: screenshots on failure not working
+# see: https://cucumber.io/docs/guides/browser-automation?lang=ruby#screenshot-on-failure
 Capybara::Screenshot.autosave_on_failure = true
 Capybara.asset_host = "http://localhost:3000"
 Capybara::Screenshot.prune_strategy = :keep_last_run

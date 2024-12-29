@@ -12,7 +12,6 @@ end
 
 When("I click {string}") do |button|
   click_on button
-  # debugger
 end
 
 Then("the URL should contain {string}") do |expected_part|

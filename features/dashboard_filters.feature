@@ -1,3 +1,4 @@
+@javascript
 Feature: Dashboard Search Filters
   As a user
   I want to filter visits by various criteria
