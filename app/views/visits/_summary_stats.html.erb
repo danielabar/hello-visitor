@@ -1,0 +1,8 @@
+<%# locals: summary %>
+
+<% summary.each do |label, value| %>
+  <div class="p-3 bg-gray-100 rounded-md shadow-inner text-center">
+    <span class="block text-sm text-gray-500"><%= label.to_s.humanize %></span>
+    <span class="block text-lg font-semibold text-gray-800" data-test-id="stat-<%= label.to_s.parameterize %>"><%= value %></span>
+  </div>
+<% end %>

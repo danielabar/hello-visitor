@@ -1,0 +1,26 @@
+<%# locals: visit_search %>
+
+<%= form_with model: visit_search, url: visits_path, method: :get, local: true, class: "space-y-4 mt-3" do |form| %>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div>
+          <%= form.label :url, "Content", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.text_field :url, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+        <div>
+          <%= form.label :referrer, "Referrer", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.text_field :referrer, class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+        <div>
+          <%= form.label :start_date, "Start date", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.date_field :start_date, placeholder: "Start date", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+        <div>
+          <%= form.label :end_date, "End date", class: "block text-sm font-semibold text-gray-700" %>
+          <%= form.date_field :end_date, placeholder: "End date", class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-4 mt-4">
+        <%= form.submit "Search", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 uppercase tracking-wider" %>
+        <%= link_to 'Reset', visits_path, class: "px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hover:text-gray-800 uppercase tracking-wider" %>
+      </div>
+    <% end %>
