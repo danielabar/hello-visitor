@@ -88,9 +88,6 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Precompile assets
-        run: bin/rails assets:precompile
-
       - name: Run tests
         env:
           RAILS_ENV: test
@@ -100,10 +97,52 @@ jobs:
           bin/rails db:test:prepare
           bin/rspec
 
-      # - name: Keep screenshots from failed system tests
-      #   uses: actions/upload-artifact@v4
-      #   if: failure()
-      #   with:
-      #     name: screenshots
-      #     path: ${{ github.workspace }}/tmp/screenshots
-      #     if-no-files-found: ignore
+
+
+  feature_test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --name hello_db --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config google-chrome-stable
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create role
+        run: docker exec hello_db bash -c "PGPASSWORD=postgres psql -U postgres -c \"create role hello with createdb login password 'hello'\""
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Precompile assets
+        run: bin/rails assets:precompile
+
+      - name: Run feature tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: |
+          bin/rails db:test:prepare
+          bundle exec cucumber
+
+      - name: Keep screenshots from failed system tests
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: ${{ github.workspace }}/tmp/screenshots
+          if-no-files-found: ignore
