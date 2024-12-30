@@ -54,6 +54,21 @@ And("charts are displayed") do
   end
 end
 
+Then("charts display no data") do
+  within("#by_date") do
+    expect(page).to have_content("No data")
+  end
+  within("#by_page") do
+    expect(page).to have_content("No data")
+  end
+  within("#by_referrer") do
+    expect(page).to have_content("No data")
+  end
+  within("#by_page_bottom") do
+    expect(page).to have_content("No data")
+  end
+end
+
 Then("the URL should contain {string}") do |expected_part|
   expect(page.current_url).to include(expected_part)
 end
