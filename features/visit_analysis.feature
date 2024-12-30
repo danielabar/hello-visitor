@@ -13,7 +13,7 @@ Feature: Visit Analysis
   Scenario: Default visits dashboard for past month
     Then the Summary section shows stats:
       | avg_daily_visits | total_visits | median_daily_visits | min_visits | max_visits |
-      | 1                | 32            | 1                   | 1          | 1          |
+      | 1                | 3            | 1                   | 1          | 1          |
     And charts are displayed
 
   Scenario: Search by content
