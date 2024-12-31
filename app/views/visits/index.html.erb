@@ -2,19 +2,8 @@
    <!-- Filters -->
   <div class="bg-white shadow-md rounded-md p-4">
     <h2 class="text-lg font-medium text-gray-800">Filter</h2>
-    <!-- Quick Filters -->
-    <div class="mb-4">
-      <%# <span class="text-sm font-medium text-gray-700">Quick Filters:</span> %>
-      <div class="flex space-x-2 mt-4">
-        <%= link_to '24 Hours', visits_path(visit_search: { start_date: 24.hours.ago.to_date, end_date: Time.zone.today }), class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
-        <%= link_to '7 Days', visits_path(visit_search: { start_date: 7.days.ago.to_date, end_date: Time.zone.today }), class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
-        <%= link_to '1 Month', visits_path(visit_search: { start_date: 1.month.ago.to_date, end_date: Time.zone.today }), class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
-        <%= link_to '3 Months', visits_path(visit_search: { start_date: 3.months.ago.to_date, end_date: Time.zone.today }), class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
-      </div>
-    </div>
-
-    <%# Custom Search %>
-    <%= render 'filters', visit_search: @visit_search %>
+    <%= render 'quick_filters' %>
+    <%= render 'custom_search', visit_search: @visit_search %>
   </div>
 
   <!-- Charts -->
