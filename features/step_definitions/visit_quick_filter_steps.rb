@@ -5,7 +5,7 @@ When("I click the {string} quick filter") do |filter_name|
 end
 
 Then("the {string} quick filter is active") do |filter_name|
-  active_button = find("span", text: filter_name, class: "bg-indigo-100")
+  active_button = find("[data-test-id='quick-filter-active'][data-label='#{filter_name}']")
   expect(active_button).to be_present
 end
 
