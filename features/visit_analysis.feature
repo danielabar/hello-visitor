@@ -37,6 +37,16 @@ Feature: Visit Analysis
       | 1                | 4            | 1                   | 1          | 1          |
     And charts are displayed
 
+  Scenario: Quick filter for 24 Hours
+    When I click the "24 Hours" quick filter
+    Then the Summary section shows stats:
+      | avg_daily_visits | total_visits | median_daily_visits | min_visits | max_visits |
+      | 1                | 1            | 1                   | 1          | 1          |
+    And the "24 Hours" quick filter is active
+    And the "24 Hours" quick filter is not clickable
+    And charts are displayed
+
+
   Scenario: No results
     When I search by content "no-such-thing"
     Then charts display no data
