@@ -14,30 +14,42 @@ Free, privacy focused analytics. Just record visits, no creepy.
 
 ## Start Services
 
-Install dependencies, prepare database, and start server:
+Install dependencies and prepare database:
 
 ```bash
 bin/setup
 ```
 
-Just start the server:
+Start Rails server and TailwindCSS watch:
 
 ```bash
 bin/dev
 ```
 
-App is at [http://localhost:3000/], login as example user in [seeds](db/seeds.rb).
+App is at http://localhost:3000/, login as example user in [seeds](db/seeds.rb).
 
 ## Run Tests
 
 ```bash
+# RSpec unit and integration tests
 bin/rspec
+
+# Cucumber feature/browser tests
+bin/cucumber
 ```
 
 ## Linting
 
 ```bash
 bin/rubocop
+```
+
+## Local CI
+
+For full local verification (recommended before opening a PR):
+
+```bash
+bin/ci
 ```
 
 ## Deploy
