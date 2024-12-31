@@ -5,6 +5,9 @@ set -e
 echo "Clearing logs and temporary files..."
 bin/rails log:clear tmp:clear || { echo "Failed to clear logs or temporary files. Fix issues and retry."; exit 1; }
 
+echo "Running Brakeman..."
+bin/brakeman --no-pager || { echo "Brakeman scan failed. Fix issues and retry."; exit 1; }
+
 echo "Preparing the test database..."
 bin/rails db:test:prepare || { echo "Test database preparation failed. Fix issues and retry."; exit 1; }
 
