@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Clearing logs and temporary files..."
+bin/rails log:clear tmp:clear || { echo "Failed to clear logs or temporary files. Fix issues and retry."; exit 1; }
+
+echo "Running Brakeman..."
+bin/brakeman --no-pager || { echo "Brakeman scan failed. Fix issues and retry."; exit 1; }
+
+echo "Preparing the test database..."
+bin/rails db:test:prepare || { echo "Test database preparation failed. Fix issues and retry."; exit 1; }
+
+echo "Running RuboCop..."
+bin/rubocop || { echo "RuboCop failed. Fix issues and retry."; exit 1; }
+
+echo "Running RSpec..."
+bin/rspec || { echo "RSpec tests failed. Fix issues and retry."; exit 1; }
+
+echo "Running Cucumber..."
+bin/cucumber || { echo "Cucumber tests failed. Fix issues and retry."; exit 1; }
+
+echo "All checks passed successfully!"

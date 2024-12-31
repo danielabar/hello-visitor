@@ -1,0 +1,22 @@
+<%# locals: visit_search %>
+
+<div class="mb-4 mt-4">
+  <div class="inline-flex items-center divide-x divide-gray-300 border border-indigo-500 rounded-md bg-white">
+    <%= quick_filter_link('24 Hours',
+          { start_date: 24.hours.ago.to_date, end_date: Time.zone.today },
+          { start_date: visit_search.start_date, end_date: visit_search.end_date },
+          visits_path(visit_search: { start_date: 24.hours.ago.to_date, end_date: Time.zone.today })) %>
+    <%= quick_filter_link('7 Days',
+          { start_date: 7.days.ago.to_date, end_date: Time.zone.today },
+          { start_date: visit_search.start_date, end_date: visit_search.end_date },
+          visits_path(visit_search: { start_date: 7.days.ago.to_date, end_date: Time.zone.today })) %>
+    <%= quick_filter_link('1 Month',
+          { start_date: 1.month.ago.to_date, end_date: Time.zone.today },
+          { start_date: visit_search.start_date, end_date: visit_search.end_date },
+          visits_path(visit_search: { start_date: 1.month.ago.to_date, end_date: Time.zone.today })) %>
+    <%= quick_filter_link('3 Months',
+          { start_date: 3.months.ago.to_date, end_date: Time.zone.today },
+          { start_date: visit_search.start_date, end_date: visit_search.end_date },
+          visits_path(visit_search: { start_date: 3.months.ago.to_date, end_date: Time.zone.today })) %>
+  </div>
+</div>

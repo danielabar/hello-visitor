@@ -2,7 +2,8 @@
    <!-- Filters -->
   <div class="bg-white shadow-md rounded-md p-4">
     <h2 class="text-lg font-medium text-gray-800">Filter</h2>
-    <%= render 'filters', visit_search: @visit_search %>
+    <%= render 'quick_filters', visit_search: @visit_search %>
+    <%= render 'custom_search', visit_search: @visit_search %>
   </div>
 
   <!-- Charts -->
