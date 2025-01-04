@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: Add optional flag to cleanup the dump files
-
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
@@ -14,6 +12,21 @@ DB_HOST="localhost"
 DB_USER="hello"
 DB_NAME="hello"
 DB_PORT="5432"
+PRESERVE_FILES=false
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --preserve-files)
+      PRESERVE_FILES=true
+      shift
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
 
 # Ensure APP_NAME is set
 if [ -z "$APP_NAME" ]; then
@@ -53,7 +66,13 @@ pg_restore --verbose --clean --no-acl --no-owner \
   --use-list="$TOC_FILE" \
   -h localhost -p "$DB_PORT" -U "$DB_USER" \
   -d "$DB_NAME" "$DUMP_FILE"
-
-# TODO: Cleanup the toc.list and bak files
-
 echo "=== DATABASE RESTORED SUCCESSFULLY TO: $DB_NAME."
+
+# Clean up dump and TOC files unless --preserve-files is set
+if [ "$PRESERVE_FILES" = false ]; then
+  echo "=== CLEANING UP TEMPORARY FILES..."
+  rm -f "$DUMP_FILE" "$TOC_FILE" "${TOC_FILE}.bak"
+  echo "=== CLEANUP COMPLETE."
+else
+  echo "=== PRESERVING DUMP AND TOC FILES AS REQUESTED."
+fi
