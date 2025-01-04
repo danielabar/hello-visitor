@@ -40,7 +40,7 @@
     </div>
 
     <%# Referrers %>
-    <div class="bg-white shadow-md rounded-md p-4">
+    <div class="bg-white shadow-md rounded-md p-4" data-controller="chart">
       <h2 class="text-lg font-medium text-gray-800">Top Referrers</h2>
       <%= render 'bar_chart',
              data: @stats.by_referrer,
