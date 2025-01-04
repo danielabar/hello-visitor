@@ -28,13 +28,13 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+# Assets
 /public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
-/app/assets/builds/*
-!/app/assets/builds/.keep
 
 # Editor/IDE
 .vscode/settings.json
@@ -43,3 +43,9 @@
 script/local_search.sh
 script/clean.sh
 script/clean.sql
+
+# DB dumps
+toc.list
+toc.list.*
+latest.dump
+latest.dump.*
