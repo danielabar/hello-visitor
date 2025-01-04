@@ -61,6 +61,9 @@ sed -i.bak '/users/d' "$TOC_FILE"
 echo "=== GENERATED THE TOC FILE: $TOC_FILE"
 
 # Restore the database locally
+# If prompted for a password, add entry to ~/.pgpass, for example:
+# localhost:5432:database:username:password
+# Where database, username, password correspond to values from config/database.yml
 echo "=== RESTORING THE DATABASE TO YOUR LOCAL ENVIRONMENT..."
 pg_restore --verbose --clean --no-acl --no-owner \
   --use-list="$TOC_FILE" \
