@@ -40,11 +40,12 @@ fi
 echo "=== IDENTIFIED THE MOST RECENT DUMP FILE: $DUMP_FILE"
 
 # Generate TOC file so we can exclude some objects from restore
-# TODO: Also exclude users table so we don't lose the local seeded user
 TOC_FILE="toc.list"
 pg_restore --list "$DUMP_FILE" > "$TOC_FILE"
 sed -i.bak '/ar_internal_metadata/d' "$TOC_FILE"
 sed -i.bak '/pg_stat_statements/d' "$TOC_FILE"
+sed -i.bak '/users/d' "$TOC_FILE"
+echo "=== GENERATED THE TOC FILE: $TOC_FILE"
 
 # Restore the database locally
 echo "=== RESTORING THE DATABASE TO YOUR LOCAL ENVIRONMENT..."
