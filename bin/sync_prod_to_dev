@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# TODO: Add optional flag to cleanup the dump files
+
+# Exit immediately if a command exits with a non-zero status.
+set -e
+
+# Catch errors in pipelines.
+set -o pipefail
+
+# Variables
+APP_NAME="${HEROKU_HELLO_APP_NAME}"
+DB_HOST="localhost"
+DB_USER="hello"
+DB_NAME="hello"
+DB_PORT="5432"
+
+# Ensure APP_NAME is set
+if [ -z "$APP_NAME" ]; then
+  echo "Error: HEROKU_HELLO_APP_NAME environment variable is not set."
+  exit 1
+fi
+
+# Check Heroku CLI is installed
+if ! command -v heroku &> /dev/null; then
+  echo "Heroku CLI not found. Please install it: https://devcenter.heroku.com/articles/heroku-cli"
+  exit 1
+fi
+
+# Download the latest database backup
+echo "=== DOWNLOADING THE LATEST DATABASE BACKUP FROM HEROKU..."
+heroku pg:backups:download --app "$APP_NAME"
+
+# Identify the most recent dump file
+DUMP_FILE=$(ls -t latest.dump* 2>/dev/null | head -n 1)
+if [ -z "$DUMP_FILE" ]; then
+  echo "Error: No dump file found."
+  exit 1
+fi
+echo "=== IDENTIFIED THE MOST RECENT DUMP FILE: $DUMP_FILE"
+
+# Generate TOC file so we can exclude some objects from restore
+# TODO: Also exclude users table so we don't lose the local seeded user
+TOC_FILE="toc.list"
+pg_restore --list "$DUMP_FILE" > "$TOC_FILE"
+sed -i.bak '/ar_internal_metadata/d' "$TOC_FILE"
+sed -i.bak '/pg_stat_statements/d' "$TOC_FILE"
+
+# Restore the database locally
+echo "=== RESTORING THE DATABASE TO YOUR LOCAL ENVIRONMENT..."
+pg_restore --verbose --clean --no-acl --no-owner \
+  --use-list="$TOC_FILE" \
+  -h localhost -p "$DB_PORT" -U "$DB_USER" \
+  -d "$DB_NAME" "$DUMP_FILE"
+
+# TODO: Cleanup the toc.list and bak files
+
+echo "=== DATABASE RESTORED SUCCESSFULLY TO: $DB_NAME."
