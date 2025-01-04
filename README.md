@@ -52,6 +52,22 @@ For full local verification (recommended before opening a PR):
 bin/ci
 ```
 
+## Working with Production Data
+
+This project comes with seed data to generate random visits. There's also an option to load production data into the development database, from on the latest Heroku PG backup:
+
+```bash
+bin/sync_prod_to_dev
+```
+
+This will download a PG dump file of the latest backup on Heroku, and generate a table-of-contents list file for the database objects to be restored, which will exclude a few things not relevant for local development.
+
+By default, the script will remove the generated dump and list files upon completion. They can be preserved if needed:
+
+```bash
+bin/sync_prod_to_dev --preserve-files
+```
+
 ## Deploy
 
 [Heroku Getting Started with Rails 6](https://devcenter.heroku.com/articles/getting-started-with-rails6)
