@@ -39,11 +39,11 @@ class VisitsController < ApplicationController
   private
 
   def visit_params
-    params.require(:visit).permit(:guest_timezone_offset, :user_agent, :url, :referrer)
+    params.expect(visit: %i[guest_timezone_offset user_agent url referrer])
   end
 
   def visit_search_params
-    params.require(:visit_search).permit(:url, :referrer, :start_date, :end_date)
+    params.expect(visit_search: %i[url referrer start_date end_date])
   end
 
   # https://stackoverflow.com/questions/3985989/using-sanitize-within-a-rails-controller
