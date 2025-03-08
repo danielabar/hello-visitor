@@ -17,7 +17,8 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails"
+# https://github.com/rails/tailwindcss-rails?tab=readme-ov-file#you-dont-have-to-upgrade
+gem "tailwindcss-rails", "~> 3.3.1" # which transitively pins tailwindcss-ruby to v3
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
