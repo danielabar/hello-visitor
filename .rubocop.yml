@@ -3,8 +3,6 @@ inherit_from: .rubocop_todo.yml
 plugins:
   - rubocop-rails
   - rubocop-rspec
-
-require:
   - rubocop-rspec_rails
   - rubocop-performance
   - rubocop-thread_safety
