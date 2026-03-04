@@ -17,14 +17,16 @@
       </div>
     </div>
 
-    <%# By Date %>
+    <%# By Date / By Month — controlled by granularity toggle %>
     <div class="bg-white shadow-md rounded-md p-4">
-      <h2 class="text-lg font-medium text-gray-800">Visits by Date</h2>
+      <h2 class="text-lg font-medium text-gray-800">
+        <%= @visit_search.monthly? ? 'Visits by Month' : 'Visits by Date' %>
+      </h2>
       <%= render 'line_chart',
-             data: @stats.by_date,
+             data: @visit_search.monthly? ? @stats.by_month : @stats.by_date,
              id: 'by_date',
              height: '325px',
-             xtitle: 'Date',
+             xtitle: @visit_search.monthly? ? 'Month' : 'Date',
              ytitle: 'Number of Visits' %>
     </div>
 

@@ -50,3 +50,15 @@ Feature: Visit Analysis
   Scenario: No results
     When I search by content "no-such-thing"
     Then charts display no data
+
+  Scenario: Granularity toggle defaults to Day
+    Then the "Day" granularity toggle is active
+    And the "Day" granularity toggle is not clickable
+    And the "Month" granularity toggle is clickable
+
+  Scenario: Monthly granularity shows monthly summary stats
+    When I click the "Month" granularity toggle
+    Then the "Month" granularity toggle is active
+    And the "Day" granularity toggle is clickable
+    And the Summary section shows monthly stats
+    And charts are displayed

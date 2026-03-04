@@ -14,6 +14,12 @@ FactoryBot/ExcessiveCreateList:
     - 'spec/models/visit_spec.rb'
 
 # Offense count: 1
+# Configuration parameters: CountComments, Max, CountAsOne, AllowedMethods, AllowedPatterns.
+Metrics/ClassLength:
+  Exclude:
+    - 'app/queries/visit_query.rb'
+
+# Offense count: 1
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:
   Max: 18

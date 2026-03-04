@@ -3,6 +3,25 @@
 require "rails_helper"
 
 RSpec.describe VisitsHelper do
+  describe "#granularity_link" do
+    let(:visit_search) { VisitSearch.new(granularity: "day") }
+
+    it "renders a span with active styles when the value matches granularity" do
+      result = helper.granularity_link("Day", "day", visit_search)
+      expect(result).to include("<span")
+      expect(result).to include("bg-indigo-100")
+      expect(result).to include("text-indigo-600")
+      expect(result).to include("data-test-id=\"granularity-active\"")
+    end
+
+    it "renders a link for the inactive value" do
+      result = helper.granularity_link("Month", "month", visit_search)
+      expect(result).to include("<a")
+      expect(result).to include("hover:bg-gray-100")
+      expect(result).not_to include("bg-indigo-100")
+    end
+  end
+
   describe "#quick_filter_link" do
     let(:range) { { start_date: 7.days.ago.to_date, end_date: Time.zone.today } }
     let(:current_range) { { start_date: 7.days.ago.to_date, end_date: Time.zone.today } }

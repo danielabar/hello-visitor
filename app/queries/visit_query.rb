@@ -92,4 +92,42 @@ class VisitQuery
     Visit.find_by_sql([sql, visit_search.start_datetime, visit_search.end_datetime, "%#{visit_search.url}%",
                        "%#{visit_search.referrer}%"])
   end
+
+  def self.by_month(visit_search)
+    sql = <<~SQL.squish
+      SELECT DATE_TRUNC('month', created_at) AS visit_month
+           , COUNT(*) AS visit_count
+      FROM visits
+      WHERE created_at >= ?
+        AND created_at <= ?
+        AND url LIKE ?
+        AND COALESCE(referrer, '') ILIKE ?
+      GROUP BY DATE_TRUNC('month', created_at)
+      ORDER BY DATE_TRUNC('month', created_at)
+    SQL
+    Visit.find_by_sql([sql, visit_search.start_datetime, visit_search.end_datetime,
+                       "%#{visit_search.url}%", "%#{visit_search.referrer}%"])
+  end
+
+  def self.monthly_summary(visit_search)
+    sql = <<~SQL.squish
+      SELECT avg(visit_count)::numeric(10) AS avg_monthly_visits
+           , sum(visit_count)::numeric(10) AS total_visits
+           , PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY visit_count)::numeric(10) AS median_monthly_visits
+           , min(visit_count)::numeric(10) AS min_visits
+           , max(visit_count)::numeric(10) AS max_visits
+      FROM (
+        SELECT DATE_TRUNC('month', created_at) AS visit_month
+             , COUNT(*) AS visit_count
+        FROM visits
+        WHERE created_at >= ?
+          AND created_at <= ?
+          AND url LIKE ?
+          AND COALESCE(referrer, '') ILIKE ?
+        GROUP BY DATE_TRUNC('month', created_at)
+      ) visits_by_month
+    SQL
+    Visit.find_by_sql([sql, visit_search.start_datetime, visit_search.end_datetime,
+                       "%#{visit_search.url}%", "%#{visit_search.referrer}%"])
+  end
 end

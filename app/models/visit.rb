@@ -38,4 +38,19 @@ class Visit < ApplicationRecord
   def self.by_date(visit_search)
     VisitQuery.by_date(visit_search).map { |v| [v["visit_date"].strftime("%Y-%m-%d"), v["visit_count"]] }
   end
+
+  def self.by_month(visit_search)
+    VisitQuery.by_month(visit_search).map { |v| [v["visit_month"].strftime("%Y-%m-%d"), v["visit_count"]] }
+  end
+
+  def self.monthly_summary(visit_search)
+    result = VisitQuery.monthly_summary(visit_search)
+    {
+      avg_monthly_visits: result[0]["avg_monthly_visits"],
+      total_visits: result[0]["total_visits"],
+      median_monthly_visits: result[0]["median_monthly_visits"],
+      min_visits: result[0]["min_visits"],
+      max_visits: result[0]["max_visits"]
+    }
+  end
 end

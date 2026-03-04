@@ -71,4 +71,29 @@ RSpec.describe Stats do
       expect(stats.by_date).to eq([[1.day.ago.to_date.to_s, 2]])
     end
   end
+
+  context "when granularity is monthly" do
+    it "populates by_month and monthly summary, leaves by_date nil" do
+      create_list(:visit, 3, created_at: 40.days.ago)
+      create_list(:visit, 5, created_at: 5.days.ago)
+
+      visit_search = VisitSearch.new(
+        start_date: 2.months.ago.to_date,
+        end_date: Time.zone.today,
+        url: "",
+        referrer: "",
+        granularity: "month"
+      )
+      stats = described_class.new(visit_search)
+      stats.collect
+
+      expect(stats.by_month).not_to be_nil
+      expect(stats.by_month.length).to eq(2)
+      expect(stats.by_date).to be_nil
+
+      expect(stats.summary[:avg_monthly_visits]).to eq(4)
+      expect(stats.summary[:total_visits]).to eq(8)
+      expect(stats.summary).not_to have_key(:avg_daily_visits)
+    end
+  end
 end
