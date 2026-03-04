@@ -19,7 +19,7 @@ git push heroku main
 heroku releases --app app-name
 
 # Run migrations
-heroku run rake db:migrate
+heroku run rails db:migrate:primary
 
 # Configure env vars and verify
 heroku config:set ALLOWED_ORIGIN=https://whatever.com
