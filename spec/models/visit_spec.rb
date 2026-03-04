@@ -120,6 +120,35 @@ RSpec.describe Visit do
     end
   end
 
+  describe "by_month" do
+    it "returns an array of arrays grouped by month in date order" do
+      create_list(:visit, 3, created_at: 40.days.ago)  # prior month
+      create_list(:visit, 5, created_at: 5.days.ago)   # current month
+
+      result = described_class.by_month(VisitSearch.new(start_date: 2.months.ago.to_date))
+
+      expect(result.length).to eq(2)
+      expect(result[0][1]).to eq(3)  # earlier month
+      expect(result[1][1]).to eq(5)  # current month
+    end
+  end
+
+  describe "monthly_summary" do
+    it "returns summary stats aggregated by month" do
+      create_list(:visit, 3, created_at: 40.days.ago)  # prior month: 3
+      create_list(:visit, 5, created_at: 5.days.ago)   # current month: 5
+
+      visit_search = VisitSearch.new(start_date: 2.months.ago.to_date, granularity: "month")
+      result = described_class.monthly_summary(visit_search)
+
+      expect(result[:total_visits]).to eq(8)
+      expect(result[:min_visits]).to eq(3)
+      expect(result[:max_visits]).to eq(5)
+      expect(result[:avg_monthly_visits]).to eq(4)
+      expect(result[:median_monthly_visits]).to eq(4)
+    end
+  end
+
   describe "by_date" do
     it "Returns an array of arrays by date order, representing visits grouped by date" do
       visit1 = create(:visit, url: "https://example.com/page1", created_at: 5.days.ago)

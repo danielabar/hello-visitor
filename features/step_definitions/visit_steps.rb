@@ -54,6 +54,11 @@ And("charts are displayed") do
   end
 end
 
+Then("the Summary section shows monthly stats") do
+  expect(page).to have_css("[data-test-id='stat-avg_monthly_visits']")
+  expect(page).to have_no_css("[data-test-id='stat-avg_daily_visits']")
+end
+
 Then("charts display no data") do
   within("#by_date") do
     expect(page).to have_content("No data")

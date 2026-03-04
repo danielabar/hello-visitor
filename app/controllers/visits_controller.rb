@@ -43,7 +43,7 @@ class VisitsController < ApplicationController
   end
 
   def visit_search_params
-    params.expect(visit_search: %i[url referrer start_date end_date])
+    params.expect(visit_search: %i[url referrer start_date end_date granularity])
   end
 
   # https://stackoverflow.com/questions/3985989/using-sanitize-within-a-rails-controller

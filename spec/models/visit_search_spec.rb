@@ -37,6 +37,20 @@ RSpec.describe VisitSearch do
     end
   end
 
+  describe "granularity" do
+    it "defaults to 'day'" do
+      expect(described_class.new.granularity).to eq("day")
+    end
+
+    it "monthly? returns false when granularity is 'day'" do
+      expect(described_class.new(granularity: "day").monthly?).to be(false)
+    end
+
+    it "monthly? returns true when granularity is 'month'" do
+      expect(described_class.new(granularity: "month").monthly?).to be(true)
+    end
+  end
+
   describe "#end_datetime" do
     it "returns the end of the day for end_date" do
       visit_search = described_class.new(end_date: "2024-12-25")
