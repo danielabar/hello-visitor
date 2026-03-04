@@ -49,3 +49,6 @@ toc.list
 toc.list.*
 latest.dump
 latest.dump.*
+
+# AI assistant files
+.claude/settings.local.json
