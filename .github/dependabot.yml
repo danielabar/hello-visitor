@@ -3,10 +3,25 @@ updates:
 - package-ecosystem: bundler
   directory: "/"
   schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+    interval: monthly
+  open-pull-requests-limit: 5
+  groups:
+    rubocop:
+      patterns:
+        - "rubocop*"
+    solid-rails:
+      patterns:
+        - "solid_*"
+    test-tooling:
+      patterns:
+        - "faker"
+        - "factory_bot*"
+        - "shoulda*"
+        - "capybara*"
+        - "cuprite"
+        - "database_cleaner*"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: monthly
-  open-pull-requests-limit: 10
+  open-pull-requests-limit: 3
