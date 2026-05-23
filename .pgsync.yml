@@ -1,0 +1,7 @@
+from: $(heroku config:get DATABASE_URL --app $HEROKU_HELLO_APP_NAME)?sslmode=require
+to: postgres://hello:hello@127.0.0.1/hello
+
+exclude:
+  - users
+  - schema_migrations
+  - ar_internal_metadata
