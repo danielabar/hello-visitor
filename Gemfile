@@ -51,7 +51,7 @@ gem "devise"
 gem "rack-cors"
 gem "pg_search"
 gem "font-awesome-rails"
-gem "chartkick"
+gem "chartkick", "< 5.2.1" # chart.js 4.5.1 breaks animation (chartjs/Chart.js#12143); remove pin when chartkick >= 5.2.2
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
