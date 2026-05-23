@@ -78,7 +78,7 @@ class VisitQuery
   end
 
   def self.by_date(visit_search)
-    sql = <<-SQL.squish
+    sql = <<~SQL.squish
       SELECT created_at::timestamp::date as visit_date
         , count(created_at::timestamp::date) as visit_count
       FROM visits
