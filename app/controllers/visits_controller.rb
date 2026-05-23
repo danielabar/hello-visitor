@@ -18,7 +18,7 @@ class VisitsController < ApplicationController
   end
 
   def show
-    @visit = Visit.find(params[:id])
+    @visit = Visit.find(params.expect(:id))
 
     render json: { visits: @visit }
   end

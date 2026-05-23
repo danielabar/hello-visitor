@@ -61,16 +61,16 @@ end
 
 Then("charts display no data") do
   within("#by_date") do
-    expect(page).to have_content("No data")
+    expect(page).to have_text("No data")
   end
   within("#by_page") do
-    expect(page).to have_content("No data")
+    expect(page).to have_text("No data")
   end
   within("#by_referrer") do
-    expect(page).to have_content("No data")
+    expect(page).to have_text("No data")
   end
   within("#by_page_bottom") do
-    expect(page).to have_content("No data")
+    expect(page).to have_text("No data")
   end
 end
 
