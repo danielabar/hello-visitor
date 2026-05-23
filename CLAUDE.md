@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## About
 
-Hello Visitor is a privacy-focused analytics app built with Rails 8.1. It records page visits without tracking cookies. The dashboard shows visit statistics filtered by URL, referrer, and date range.
+Hello Visitor is a privacy-focused analytics app built with Rails 8.1. It records page visits without tracking cookies. The dashboard shows visit statistics filtered by URL, referrer, and date range. Hosted on Heroku with the Heroku Postgres add-on.
 
 ## Commands
 
@@ -36,6 +36,13 @@ make replant       # Reseed database (drop + seed)
 make console       # Open Rails console
 make routes        # Print routes
 ```
+
+Sync production visits data locally (requires `$HEROKU_HELLO_APP_NAME` env var set and `heroku` CLI authenticated):
+```bash
+pgsync visits      # Truncates local visits table and bulk-copies prod rows in
+```
+
+`.pgsync.yml` in the project root configures the source (Heroku Postgres) and destination (local dev DB). The `users` table is excluded so local Devise credentials stay intact.
 
 ## Architecture
 
