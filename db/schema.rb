@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_04_190355) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_23_215642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "documents", force: :cascade do |t|
     t.text "body", null: false
@@ -48,5 +49,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_190355) do
     t.string "url", null: false
     t.string "user_agent", null: false
     t.index ["created_at"], name: "index_visits_on_created_at"
+    t.index ["url"], name: "index_visits_on_url", opclass: :gin_trgm_ops, using: :gin
   end
 end
