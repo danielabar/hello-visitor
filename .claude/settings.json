@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bin/rubocop"
+            "command": "bash .claude/hooks/rubocop.sh"
           }
         ]
       }

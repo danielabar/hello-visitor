@@ -29,7 +29,7 @@ class VisitsController < ApplicationController
     sanitize
 
     if @visit.save
-      Rails.logger.info("Visit saved: #{@visit.to_json}")
+      Rails.logger.info("Visit saved: id=#{@visit.id}, url=#{@visit.url}")
     else
       Rails.logger.error("Visit error: #{@visit.errors}")
     end
