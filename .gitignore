@@ -52,3 +52,4 @@ latest.dump.*
 
 # AI assistant files
 .claude/settings.local.json
+.codegraph
