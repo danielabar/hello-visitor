@@ -3,7 +3,7 @@
 class VisitsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
   before_action :log_request, only: %i[create]
-  skip_forgery_protection
+  skip_forgery_protection only: :create
 
   def index
     @visit_search = VisitSearch.new
