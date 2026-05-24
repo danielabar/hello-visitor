@@ -19,7 +19,7 @@ RSpec.describe "Content Security Policy" do
 
   it "sets script-src with self and a nonce" do
     get "/visits"
-    expect(response.headers["Content-Security-Policy"]).to match(/script-src 'self' 'nonce-[A-Za-z0-9+\/=]+'/)
+    expect(response.headers["Content-Security-Policy"]).to match(%r{script-src 'self' 'nonce-[A-Za-z0-9+/=]+'})
   end
 
   it "sets style-src to allow unsafe-inline" do
@@ -34,7 +34,7 @@ RSpec.describe "Content Security Policy" do
 
   it "includes a non-empty nonce in the script-src directive" do
     get "/visits"
-    nonce = response.headers["Content-Security-Policy"][/'nonce-([A-Za-z0-9+\/=]+)'/, 1]
+    nonce = response.headers["Content-Security-Policy"][%r{'nonce-([A-Za-z0-9+/=]+)'}, 1]
     expect(nonce).to be_present
   end
 end
