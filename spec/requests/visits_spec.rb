@@ -132,6 +132,8 @@ RSpec.describe "Visits" do
 
       it "logs visit id and url without remote_ip" do
         allow(Rails.logger).to receive(:info)
+        expect(Rails.logger).to receive(:info).with(a_string_matching(%r{id=\d+, url=https://example\.com/test-page}))
+        expect(Rails.logger).not_to receive(:info).with(a_string_including("remote_ip"))
         headers = {
           Accept: "application/json",
           "Content-Type": "application/json"
@@ -144,9 +146,6 @@ RSpec.describe "Visits" do
         }
 
         post "/visits", params: params.to_json, headers: headers
-
-        expect(Rails.logger).to have_received(:info).with(a_string_matching(/id=\d+, url=https:\/\/example\.com\/test-page/))
-        expect(Rails.logger).not_to have_received(:info).with(a_string_including("remote_ip"))
       end
 
       it "Does not record bot visits" do
