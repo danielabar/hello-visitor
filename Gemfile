@@ -49,6 +49,7 @@ gem "thruster", require: false
 gem "browser"
 gem "devise"
 gem "rack-cors"
+gem "rack-attack"
 gem "pg_search"
 gem "font-awesome-rails"
 gem "chartkick", "< 5.2.1" # chart.js 4.5.1 breaks animation (chartjs/Chart.js#12143); remove pin when chartkick >= 5.2.2

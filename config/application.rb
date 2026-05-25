@@ -28,5 +28,7 @@ module HelloVisitor
     #
     # Search configuration
     config.search = config_for(:search)
+
+    config.middleware.use Rack::Attack
   end
 end
