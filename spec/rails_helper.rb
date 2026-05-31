@@ -77,5 +77,6 @@ RSpec.configure do |config|
   # TODO: Remove when Devise releases fix https://github.com/heartcombo/devise/issues/5705
   config.before(:each, type: :request) do
     Rails.application.reload_routes_unless_loaded
+    Rack::Attack.cache.store.clear
   end
 end
