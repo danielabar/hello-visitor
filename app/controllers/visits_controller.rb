@@ -23,11 +23,8 @@ class VisitsController < ApplicationController
     render json: { visits: @visit }
   end
 
-  def create # rubocop:disable Metrics/AbcSize
-    @visit = Visit.new(visit_params)
-    @visit.remote_ip = request.remote_ip
-    @visit.referrer_group = ReferrerNormalizer.group_for(@visit.referrer)
-    sanitize
+  def create
+    @visit = IncomingVisit.new(params: visit_params, remote_ip: request.remote_ip).build
 
     if @visit.save
       Rails.logger.info("Visit saved: id=#{@visit.id}, url=#{@visit.url}")
@@ -45,12 +42,6 @@ class VisitsController < ApplicationController
 
   def visit_search_params
     params.expect(visit_search: %i[url referrer start_date end_date granularity])
-  end
-
-  # https://stackoverflow.com/questions/3985989/using-sanitize-within-a-rails-controller
-  def sanitize
-    @visit.user_agent = ActionController::Base.helpers.sanitize(@visit.user_agent)
-    @visit.url = ActionController::Base.helpers.sanitize(@visit.url)
   end
 
   def log_request
