@@ -23,9 +23,10 @@ class VisitsController < ApplicationController
     render json: { visits: @visit }
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     @visit = Visit.new(visit_params)
     @visit.remote_ip = request.remote_ip
+    @visit.referrer_group = ReferrerNormalizer.group_for(@visit.referrer)
     sanitize
 
     if @visit.save
