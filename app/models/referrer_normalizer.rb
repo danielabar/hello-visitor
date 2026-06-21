@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-# Classifies a raw referrer string into a consolidated group label
-# (e.g. https://www.google.de/ -> "Google"). Source of truth for both
-# the write path and the backfill task. See
-# scratch/referrer-research/CONSOLIDATION-PLAN.md for the rationale.
-#
-# Rule order in Classifier is load-bearing: specific google.com subdomains
-# must precede the generic Google rule.
+# Coordinates the two-step pipeline that turns a raw referrer string into a
+# dashboard-ready group label. HostExtractor handles the messy input formats;
+# Classifier maps the resulting host token to a human-readable source name.
+# Keeping the steps separate lets each be tested in isolation.
 class ReferrerNormalizer
   def self.group_for(raw_referrer)
     return nil if raw_referrer.blank?

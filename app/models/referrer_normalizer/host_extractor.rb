@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# Normalizes a raw referrer into a plain host token so Classifier rules can
+# stay simple and pattern-match against one canonical form. Browsers and apps
+# send referrers in wildly different formats (https:// URLs, android-app://
+# URIs, about: strings) — this class absorbs all of that variability.
+# Common prefixes (www., m., etc.) are stripped here for the same reason.
 class ReferrerNormalizer
   class HostExtractor
     ANDROID_APP_TOKENS = {

@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+# Maps a normalized host token to a human-readable group label for the
+# analytics dashboard. Raw hosts like "t.co" or "mail.google.com" are noise;
+# grouping them into "Twitter / X" or "Gmail" makes the referrer breakdown
+# meaningful to the site owner.
+#
+# Rule order is load-bearing: specific google.com subdomains (Gmail, Keep,
+# Gemini) must appear before the generic Google catch-all regex.
 class ReferrerNormalizer
   class Classifier
     OWN_DOMAIN = "danielabaron.me"
