@@ -1,6 +1,19 @@
 require "set"
+require "logger"
 
 namespace :referrer do
+  def referrer_task_logger
+    @referrer_task_logger ||= Logger.new(Rails.root.join("log/referrer.log"))
+  end
+
+  # Prints to stdout (visible in the terminal / `heroku run` output) and
+  # writes the same line to log/referrer.log, so a backfill run leaves a
+  # record behind without needing shell redirection.
+  def referrer_log(message = "")
+    puts message
+    referrer_task_logger.info(message)
+  end
+
   desc "Recompute referrer_group for all visits. Idempotent — safe to re-run after rule changes."
   task backfill: :environment do
     buckets = Hash.new { |h, k| h[k] = [] }
@@ -11,14 +24,14 @@ namespace :referrer do
 
     buckets.each do |group, raw_referrers|
       count = Visit.where(referrer: raw_referrers).update_all(referrer_group: group)
-      puts "  #{group.inspect} <- #{raw_referrers.size} distinct referrers, #{count} rows"
+      referrer_log "  #{group.inspect} <- #{raw_referrers.size} distinct referrers, #{count} rows"
     end
 
     null_count = Visit.where(referrer: [nil, ""]).update_all(referrer_group: nil)
-    puts "  NULL  <- #{null_count} rows with empty referrer"
+    referrer_log "  NULL  <- #{null_count} rows with empty referrer"
 
-    puts
-    puts "=== Uncurated groups (promotion candidates) ==="
+    referrer_log
+    referrer_log "=== Uncurated groups (promotion candidates) ==="
     Rake::Task["referrer:unclassified"].invoke
   end
 
@@ -33,7 +46,7 @@ namespace :referrer do
                 .count
                 .reject { |group, _| curated.include?(group) }
 
-    puts "%-40s %10s" % ["referrer_group (uncurated)", "visits"]
-    rows.first(20).each { |g, n| puts "%-40s %10d" % [g, n] }
+    referrer_log "%-40s %10s" % ["referrer_group (uncurated)", "visits"]
+    rows.first(20).each { |g, n| referrer_log "%-40s %10d" % [g, n] }
   end
 end
