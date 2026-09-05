@@ -28,9 +28,9 @@ RSpec.describe Stats do
       expect(stats.by_date[1][0]).to eq(visit2.created_at.strftime("%Y-%m-%d"))
       expect(stats.by_date[1][1]).to eq(2)
 
-      expect(stats.by_referrer[0][0]).to eq("https://t.co")
+      expect(stats.by_referrer[0][0]).to eq("Twitter / X")
       expect(stats.by_referrer[0][1]).to eq(2)
-      expect(stats.by_referrer[1][0]).to eq("https://www.google.com")
+      expect(stats.by_referrer[1][0]).to eq("Google")
       expect(stats.by_referrer[1][1]).to eq(1)
     end
 
@@ -50,7 +50,7 @@ RSpec.describe Stats do
       expect(stats.by_date[0][0]).to eq(visit3.created_at.strftime("%Y-%m-%d"))
       expect(stats.by_date[0][1]).to eq(1)
 
-      expect(stats.by_referrer[0][0]).to eq("https://t.co")
+      expect(stats.by_referrer[0][0]).to eq("Twitter / X")
       expect(stats.by_referrer[0][1]).to eq(1)
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Stats do
                                     max_visits: 2
                                   })
       expect(stats.by_page).to eq([["https://ex.com/p1", 1], ["https://ex.com/p2", 1]])
-      expect(stats.by_referrer).to eq([["https://t.co", 2]])
+      expect(stats.by_referrer).to eq([["Twitter / X", 2]])
       expect(stats.by_date).to eq([[1.day.ago.to_date.to_s, 2]])
     end
   end

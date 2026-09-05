@@ -8,11 +8,13 @@ FactoryBot.define do
     remote_ip { Faker::Internet.ip_v4_address }
 
     trait :google do
-      referrer { "https://www.google.com" }
+      referrer       { "https://www.google.com" }
+      referrer_group { "Google" }
     end
 
     trait :twitter do
-      referrer { "https://t.co" }
+      referrer       { "https://t.co" }
+      referrer_group { "Twitter / X" }
     end
 
     trait :random_referrer do
