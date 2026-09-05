@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Hello Visitor is a privacy-focused analytics app built with Rails 8.1. It records page visits without tracking cookies. The dashboard shows visit statistics filtered by URL, referrer, and date range. Hosted on Heroku with the Heroku Postgres add-on.
 
+## Code quality
+
+Do not disable Rubocop rules (no inline `# rubocop:disable ...`, no per-file or per-cop overrides in `.rubocop.yml`, no new entries in `.rubocop_todo.yml`) when adding new code. Treat a rule violation as a signal that the code is doing too much or is too dense, and fix the underlying smell — usually by extracting a method, moving logic into the model, or splitting a class. The existing entries in `.rubocop_todo.yml` are legacy; we are trying to chip away at them, not add to them. If a rule is genuinely wrong for this project (not just inconvenient for one method), raise it for discussion before changing config.
+
 ## Commands
 
 ```bash
