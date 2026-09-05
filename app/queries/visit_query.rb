@@ -50,13 +50,13 @@ class VisitQuery
 
   def self.by_referrer(visit_search)
     sql = <<~SQL.squish
-      select trim(trailing '/' from referrer) as referrer
-        , count(trim(trailing '/' from referrer)) as visit_count
-      from visits
-      where #{BASE_WHERE_CLAUSE}
-        and length(referrer) > 0
-      group by trim(trailing '/' from referrer)
-      order by count(trim(trailing '/' from referrer)) desc
+      SELECT referrer_group AS referrer, COUNT(*) AS visit_count
+      FROM visits
+      WHERE #{BASE_WHERE_CLAUSE}
+        AND referrer_group IS NOT NULL
+        AND referrer_group <> 'self'
+      GROUP BY referrer_group
+      ORDER BY COUNT(*) DESC
       LIMIT #{MAX_GROUPS}
     SQL
     Visit.find_by_sql([sql, *base_params(visit_search)])

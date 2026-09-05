@@ -87,7 +87,7 @@ RSpec.describe "Visits" do
 
         expect(parsed_body["by_page"]).to eq([["https://example.com/interesting", 1]])
         expect(parsed_body["by_date"]).to eq([[Time.zone.today.to_s, 1]])
-        expect(parsed_body["by_referrer"]).to eq([["https://www.google.com", 1]])
+        expect(parsed_body["by_referrer"]).to eq([["Google", 1]])
       end
     end
 
