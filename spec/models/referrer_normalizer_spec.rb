@@ -40,8 +40,22 @@ RSpec.describe ReferrerNormalizer do
       "https://feedly.com/" => "Feedly",
       "https://github.com/foo/bar" => "GitHub",
       "https://storiesfromtheherd.com/post" => "Stories from the Herd (Medium)",
+      # --- referrer-rules-2026-09-05 batch ---
+      "https://golangweekly.com/" => "Golang Weekly",
+      "https://ifnotnil.com/" => "If Not Nil",
+      "https://r.sb.campuscode.com.br/abc" => "Campus Code (Substack)",
+      "https://link.sbstck.com/abc" => "Substack (other)",
+      "https://nelson.cloud/some-post" => "Nelson Figueroa's Blog",
+      "https://theglobeandmail.com/" => "The Globe and Mail",
+      "https://webmail.bell.net/" => "Bell Webmail",
+      "https://deref-gmx.net/abc" => "GMX Mail",
+      "https://coda.io/" => "Coda",
+      "https://trello.com/" => "Trello",
+      "https://opentelemetry.io/" => "OpenTelemetry",
+      "https://rrspgiscalculator.site/" => "RRSP GIS Calculator",
+      "https://elttucs.my.zrails.com/" => "Scuttle (bookmarks)",
       # --- fallback to bare host when no rule matches ---
-      "https://nelson.cloud/some-post" => "nelson.cloud",
+      "https://cpress.co/some-page" => "cpress.co",
       # --- self-referrer sentinel ---
       "https://danielabaron.me/blog/foo" => "self",
       "https://www.danielabaron.me/" => "self",
