@@ -3,7 +3,7 @@ require "logger"
 
 namespace :referrer do
   def referrer_task_logger
-    @referrer_task_logger ||= Logger.new(Rails.root.join("log/referrer.log"))
+    @referrer_task_logger ||= Logger.new(Rails.root.join("log/referrer_#{Rails.env}.log"))
   end
 
   # Prints to stdout (visible in the terminal / `heroku run` output) and
