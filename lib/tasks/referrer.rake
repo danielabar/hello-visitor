@@ -7,8 +7,8 @@ namespace :referrer do
   end
 
   # Prints to stdout (visible in the terminal / `heroku run` output) and
-  # writes the same line to log/referrer.log, so a backfill run leaves a
-  # record behind without needing shell redirection.
+  # writes the same line to log/referrer_#{Rails.env}.log, so a backfill run
+  # leaves a record behind without needing shell redirection.
   def referrer_log(message = "")
     puts message
     referrer_task_logger.info(message)
@@ -39,14 +39,13 @@ namespace :referrer do
   task unclassified: :environment do
     curated = ReferrerNormalizer::Classifier::RULES.map { |r| r[:group] }.to_set
 
-    rows = Visit.where.not(referrer_group: nil)
+    rows = Visit.where.not(referrer_group: [nil, *curated])
                 .group(:referrer_group)
                 .order(Arel.sql("COUNT(*) DESC"))
-                .limit(50)
+                .limit(20)
                 .count
-                .reject { |group, _| curated.include?(group) }
 
     referrer_log "%-40s %10s" % ["referrer_group (uncurated)", "visits"]
-    rows.first(20).each { |g, n| referrer_log "%-40s %10d" % [g, n] }
+    rows.each { |g, n| referrer_log "%-40s %10d" % [g, n] }
   end
 end

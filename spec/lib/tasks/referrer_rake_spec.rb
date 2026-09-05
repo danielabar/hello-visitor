@@ -58,6 +58,16 @@ RSpec.describe "referrer rake tasks", type: :task do
       expect(output).to include("nelson.cloud")
       expect(output).not_to include("Google")
     end
+
+    it "surfaces uncurated groups even when curated groups fill the top ranks" do
+      curated_groups = ReferrerNormalizer::Classifier::RULES.first(30).pluck(:group)
+      curated_groups.each { |group| create_list(:visit, 10, referrer_group: group) }
+      create_list(:visit, 2, referrer_group: "nelson.cloud")
+
+      output = capture_stdout { task.invoke }
+
+      expect(output).to include("nelson.cloud")
+    end
   end
 
   def capture_stdout
