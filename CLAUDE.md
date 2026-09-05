@@ -32,6 +32,12 @@ Run a single Cucumber feature:
 bin/cucumber features/visit_analysis.feature
 ```
 
+Truncate log files:
+```bash
+bin/rails log:clear             # development.log, test.log, production.log only
+bin/rails log:clear LOGS=all    # every log/*.log, including custom task logs
+```
+
 Database tasks via `make`:
 ```bash
 make migrate       # Run pending migrations
