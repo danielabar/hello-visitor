@@ -3,6 +3,7 @@
 Given("the following visits exist:") do |table|
   table.hashes.each do |visit|
     visit["created_at"] = parse_dynamic_date(visit["created_at"]) if visit["created_at"].present?
+    visit["referrer_group"] = ReferrerNormalizer.group_for(visit["referrer"]) unless visit.key?("referrer_group")
     FactoryBot.create(:visit, visit)
   end
 end

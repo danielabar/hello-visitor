@@ -167,53 +167,75 @@ RSpec.describe VisitQuery do
   end
 
   describe ".by_referrer" do
-    it "returns results ordered by count DESC" do
-      create(:visit, referrer: "https://www.google.com")
-      create(:visit, referrer: "https://www.google.com")
-      create(:visit, referrer: "https://www.bing.com")
+    it "groups by referrer_group and orders by count DESC" do
+      create_list(:visit, 5, referrer_group: "Google")
+      create_list(:visit, 3, referrer_group: "Reddit")
+      create(:visit, referrer_group: "Hacker News")
 
       result = described_class.by_referrer(default_search)
 
-      expect(result[0]["referrer"]).to eq("https://www.google.com")
-      expect(result[0]["visit_count"]).to eq(2)
-      expect(result[1]["referrer"]).to eq("https://www.bing.com")
-      expect(result[1]["visit_count"]).to eq(1)
+      expect(result[0]["referrer"]).to     eq("Google")
+      expect(result[0]["visit_count"]).to  eq(5)
+      expect(result[1]["referrer"]).to     eq("Reddit")
+      expect(result[1]["visit_count"]).to  eq(3)
+      expect(result[2]["referrer"]).to     eq("Hacker News")
+      expect(result[2]["visit_count"]).to  eq(1)
     end
 
-    it "excludes visits with no referrer" do
-      create_list(:visit, 5)
-      create(:visit, referrer: "https://www.google.com")
+    it "excludes visits with NULL referrer_group (direct visits)" do
+      create_list(:visit, 5, referrer_group: nil)
+      create(:visit, referrer_group: "Google")
 
       result = described_class.by_referrer(default_search)
 
       expect(result.length).to eq(1)
-      expect(result[0]["referrer"]).to eq("https://www.google.com")
+      expect(result[0]["referrer"]).to eq("Google")
     end
 
-    it "strips trailing slash from referrer" do
-      create(:visit, referrer: "https://www.google.com/")
-      create(:visit, referrer: "https://www.google.com/")
+    it "excludes 'self' referrer_group (internal nav)" do
+      create_list(:visit, 5, referrer_group: "self")
+      create(:visit, referrer_group: "Google")
 
       result = described_class.by_referrer(default_search)
 
       expect(result.length).to eq(1)
-      expect(result[0]["referrer"]).to eq("https://www.google.com")
-      expect(result[0]["visit_count"]).to eq(2)
+      expect(result[0]["referrer"]).to eq("Google")
     end
 
     it "filters by url" do
-      create(:visit, url: "https://example.com/page1", referrer: "https://www.google.com")
-      create(:visit, url: "https://example.com/about", referrer: "https://www.bing.com")
+      create(:visit, url: "https://example.com/page1", referrer_group: "Google")
+      create(:visit, url: "https://example.com/about", referrer_group: "Bing")
 
       visit_search = VisitSearch.new(url: "page1")
       result = described_class.by_referrer(visit_search)
 
       expect(result.length).to eq(1)
-      expect(result[0]["referrer"]).to eq("https://www.google.com")
+      expect(result[0]["referrer"]).to eq("Google")
+    end
+
+    it "filters by raw referrer (search box ILIKE on the raw column)" do
+      create(:visit, referrer: "https://www.google.com", referrer_group: "Google")
+      create(:visit, referrer: "https://www.bing.com",   referrer_group: "Bing")
+
+      visit_search = VisitSearch.new(referrer: "google")
+      result = described_class.by_referrer(visit_search)
+
+      expect(result.length).to eq(1)
+      expect(result[0]["referrer"]).to eq("Google")
+    end
+
+    it "excludes visits outside the date range" do
+      create(:visit, referrer_group: "Google", created_at: 2.days.ago)
+      create(:visit, referrer_group: "Google", created_at: 400.days.ago)
+
+      visit_search = VisitSearch.new(start_date: 7.days.ago.to_date)
+      result = described_class.by_referrer(visit_search)
+
+      expect(result[0]["visit_count"]).to eq(1)
     end
 
     it "limits to MAX_GROUPS (10) records" do
-      11.times { |i| create(:visit, referrer: "https://referrer#{i}.com") }
+      11.times { |i| create(:visit, referrer_group: "group-#{i}") }
 
       result = described_class.by_referrer(default_search)
 

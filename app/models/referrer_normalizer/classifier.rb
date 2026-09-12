@@ -74,6 +74,8 @@ class ReferrerNormalizer
       { match: ->(h) { h == "maintainable.fm" }, group: "Maintainable (podcast)" },
       { match: ->(h) { h == "planetruby.org" }, group: "Planet Ruby" },
       { match: ->(h) { h == "hacklines.com" }, group: "Hacklines" },
+      { match: ->(h) { h == "golangweekly.com" }, group: "Golang Weekly" },
+      { match: ->(h) { h == "ifnotnil.com" }, group: "If Not Nil" },
 
       # --- Read-later / curation ---
       { match: ->(h) { h.include?("feedly.com") }, group: "Feedly" },
@@ -94,13 +96,29 @@ class ReferrerNormalizer
       { match: ->(h) { h == "writesoftwarewell.com" },     group: "Write Software Well" },
       { match: ->(h) { h == "garrettdimon.com" }, group: "garrettdimon.com" },
       { match: ->(h) { h == "view.hashicorp.com" }, group: "HashiCorp (newsletter)" },
-      { match: ->(h) { h.include?("substack.com") }, group: "Substack (other)" },
+      { match: ->(h) { h.include?("campuscode.com.br") }, group: "Campus Code (Substack)" },
+      { match: ->(h) { h.include?("substack.com") || h == "link.sbstck.com" }, group: "Substack (other)" },
       { match: ->(h) { h == "medium.com" || h.end_with?(".medium.com") || h == "scribe.rip" }, group: "Medium" },
       { match: ->(h) { h.include?("buttondown.com") || h.include?("buttondown.email") }, group: "Buttondown" },
       { match: ->(h) { h == "andyatkinson.com" }, group: "andyatkinson.com" },
+      { match: ->(h) { h == "nelson.cloud" }, group: "Nelson Figueroa's Blog" },
 
       # --- GitHub ---
       { match: ->(h) { ["github.com", "gist.github.com"].include?(h) }, group: "GitHub" },
+
+      # --- News ---
+      { match: ->(h) { h == "theglobeandmail.com" }, group: "The Globe and Mail" },
+
+      # --- Webmail ---
+      { match: ->(h) { h == "webmail.bell.net" }, group: "Bell Webmail" },
+      { match: ->(h) { h == "deref-gmx.net" }, group: "GMX Mail" },
+
+      # --- Other tools & sites ---
+      { match: ->(h) { h == "coda.io" }, group: "Coda" },
+      { match: ->(h) { h == "trello.com" }, group: "Trello" },
+      { match: ->(h) { h == "opentelemetry.io" }, group: "OpenTelemetry" },
+      { match: ->(h) { h == "rrspgiscalculator.site" }, group: "RRSP GIS Calculator" },
+      { match: ->(h) { h == "elttucs.my.zrails.com" }, group: "Scuttle (bookmarks)" },
 
       # --- Self-referrers ---
       { match: ->(h) { h == OWN_DOMAIN || h.end_with?(".#{OWN_DOMAIN}") }, group: "self" },

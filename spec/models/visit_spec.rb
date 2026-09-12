@@ -91,30 +91,30 @@ RSpec.describe Visit do
   end
 
   describe "by_referrer" do
-    it "Returns an array of arrays in order of visit count, representing visits grouped by referrer" do
-      create(:visit, url: "https://example.com/page1", referrer: "https://www.google.com")
-      create(:visit, url: "https://example.com/page2", referrer: "https://www.google.com")
-      create(:visit, url: "https://example.com/page3", referrer: "https://www.linkedin.com")
+    it "Returns an array of arrays in order of visit count, representing visits grouped by referrer_group" do
+      create(:visit, url: "https://example.com/page1", referrer_group: "Google")
+      create(:visit, url: "https://example.com/page2", referrer_group: "Google")
+      create(:visit, url: "https://example.com/page3", referrer_group: "LinkedIn")
 
       result = described_class.by_referrer(VisitSearch.new)
 
       expect(result.length).to eq(2)
 
-      expect(result[0][0]).to eq("https://www.google.com")
+      expect(result[0][0]).to eq("Google")
       expect(result[0][1]).to eq(2)
 
-      expect(result[1][0]).to eq("https://www.linkedin.com")
+      expect(result[1][0]).to eq("LinkedIn")
       expect(result[1][1]).to eq(1)
     end
 
-    it "Does not count visits with no referrer" do
+    it "Does not count visits with no referrer_group" do
       create_list(:visit, 10)
       result = described_class.by_referrer(VisitSearch.new)
       expect(result).to eq([])
     end
 
     it "Limits to 10 groups" do
-      create_list(:visit, 20, :random_referrer)
+      20.times { |i| create(:visit, referrer_group: "group-#{i}") }
       result = described_class.by_referrer(VisitSearch.new)
       expect(result.length).to eq(10)
     end
