@@ -153,14 +153,13 @@ RSpec.describe "Visits" do
           Accept: "application/json",
           "Content-Type": "application/json"
         }
-        # rubocop:disable Layout/LineLength
+        # rubocop:disable-next Layout/LineLength
         params = {
           guest_timezone_offset: 0,
           user_agent: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36",
           url: Faker::Internet.url(host: "example.com", scheme: "https"),
           referrer: "https://www.google.com/"
         }
-        # rubocop:enable Layout/LineLength
         post "/visits", params: params.to_json, headers: headers
 
         # by design, always return success response but no new visit should be recorded
