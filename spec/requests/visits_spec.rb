@@ -87,7 +87,7 @@ RSpec.describe "Visits" do
 
         expect(parsed_body["by_page"]).to eq([["https://example.com/interesting", 1]])
         expect(parsed_body["by_date"]).to eq([[Time.zone.today.to_s, 1]])
-        expect(parsed_body["by_referrer"]).to eq([["https://www.google.com", 1]])
+        expect(parsed_body["by_referrer"]).to eq([["Google", 1]])
       end
     end
 
@@ -172,6 +172,48 @@ RSpec.describe "Visits" do
       it "Does not allow viewing visits" do
         get "/visits.json"
         expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "populates referrer_group from the raw referrer" do
+        headers = { Accept: "application/json", "Content-Type": "application/json" }
+        params = {
+          guest_timezone_offset: 0,
+          user_agent: Faker::Internet.user_agent,
+          url: "https://example.com/p",
+          referrer: "https://www.google.de/"
+        }
+
+        post "/visits", params: params.to_json, headers: headers
+
+        expect(Visit.last.referrer_group).to eq("Google")
+      end
+
+      it "leaves referrer_group NULL when referrer is blank" do
+        headers = { Accept: "application/json", "Content-Type": "application/json" }
+        params = {
+          guest_timezone_offset: 0,
+          user_agent: Faker::Internet.user_agent,
+          url: "https://example.com/p",
+          referrer: ""
+        }
+
+        post "/visits", params: params.to_json, headers: headers
+
+        expect(Visit.last.referrer_group).to be_nil
+      end
+
+      it "stores 'self' for own-domain referrers" do
+        headers = { Accept: "application/json", "Content-Type": "application/json" }
+        params = {
+          guest_timezone_offset: 0,
+          user_agent: Faker::Internet.user_agent,
+          url: "https://example.com/p",
+          referrer: "https://danielabaron.me/blog/foo"
+        }
+
+        post "/visits", params: params.to_json, headers: headers
+
+        expect(Visit.last.referrer_group).to eq("self")
       end
     end
   end
