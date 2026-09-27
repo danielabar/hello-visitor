@@ -14,7 +14,7 @@ Do not disable Rubocop rules (no inline `# rubocop:disable ...`, no per-file or 
 
 ```bash
 bin/setup          # Install deps and prepare database
-bin/dev            # Start Rails server + TailwindCSS watch (development)
+bin/dev            # Start Rails server + TailwindCSS watch (development) — never run this yourself; check if the server is already up on port 3000, and if not, ask the human to start it
 bin/rspec          # Run RSpec unit and integration tests
 bin/cucumber       # Run Cucumber browser/feature tests
 bin/rubocop        # Lint Ruby code
